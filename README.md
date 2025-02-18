@@ -29,6 +29,7 @@ Follow the steps below to set up the Laravel 11 project on your local environmen
     ```
 
 4. **Configure the Database**
+
     Open the ```.env``` file and update the database settings:
     ```bash
     DB_CONNECTION=mysql
