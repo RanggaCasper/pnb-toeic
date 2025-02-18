@@ -41,7 +41,12 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                
+                <x-menu-title title="Menu" />
+                @if (auth()->user()->role->name == "admin")
+                    <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('admin.dashboard') }}" active="{{ request()->routeIs('admin.dashboard') }}" />
+                @elseif (auth()->user()->role->name == "user")
+                    <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('user.dashboard') }}" active="{{ request()->routeIs('user.dashboard') }}" />
+                @endif
             </ul>
         </div>
         <!-- Sidebar -->

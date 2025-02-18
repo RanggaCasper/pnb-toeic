@@ -6,7 +6,7 @@
         <div class="mt-4 card">
             <div class="p-4 card-body">
                 <div class="mt-2 text-center">
-                    <h5 class="text-primary">Wellcome!</h5>
+                    <h5 class="text-primary">Welcome!</h5>
                     <p class="text-muted">Please sign in to {{ config('app.name') }}.</p>
                 </div>
                 <form method="POST" action="{{ route('login') }}">
