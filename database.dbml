@@ -1,0 +1,24 @@
+// Role
+Table roles {
+    id int [pk]
+    name varchar
+}
+
+// Program Study
+Table program_studies {
+    id int [pk]
+    name varchar
+}
+
+// User
+Table users {
+    id int [pk]
+    identity varchar
+    name varchar
+    email varchar
+    gender enum('male', 'female')
+    password varchar
+    birthday date
+    role_id int [ref: > roles.id]
+    program_study_id int [ref: > program_studies.id]
+}
