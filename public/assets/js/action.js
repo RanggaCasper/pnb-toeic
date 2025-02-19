@@ -4,6 +4,7 @@ $(document).on('submit', 'form', function (e) {
     $(this).find('.form-control').removeClass('is-invalid');
     $('.alert').remove();
     $('.error-message').remove();
+    $('#errorAccordion').remove();
 
     let button = $(this).find('button[type="submit"]');
     let buttonText = button.text();
@@ -78,6 +79,54 @@ $(document).on('submit', 'form', function (e) {
                     }
                 }
             });
+
+            if (response.data && response.data.length > 0) {
+                if ($(e.target).data('import')) {
+                    let alertMessage = `  
+                        <div class="accordion custom-accordionwithicon accordion-fill-danger mb-3" id="errorAccordion">  
+                            <div class="accordion-item">  
+                                <h2 class="accordion-header" id="headingOne">  
+                                    <button class="accordion-button bg-danger text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseErrors" aria-expanded="true" aria-controls="collapseErrors">  
+                                        Oops! - The following errors occurred  
+                                    </button>  
+                                </h2>  
+                                <div id="collapseErrors" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#errorAccordion">  
+                                    <div class="accordion-body p-0 m-0">  
+                                        <table class="table table-danger">  
+                                            <thead>  
+                                                <tr>  
+                                                    <th scope="col">Row</th>  
+                                                    <th scope="col">Attribute</th>  
+                                                    <th scope="col">Error</th>  
+                                                    <th scope="col">Value</th>  
+                                                </tr>  
+                                            </thead>  
+                                            <tbody>  
+                    `;  
+                
+                    $.each(response.data, function(index, error) {  
+                        alertMessage += `  
+                            <tr>  
+                                <td>${error.row}</td>  
+                                <td>${error.attribute}</td>  
+                                <td>${error.errors.join(", ")}</td>  
+                                <td>${error.values[error.attribute]}</td>
+                            </tr>  
+                        `;  
+                    });  
+                    
+                    alertMessage += `  
+                                            </tbody>  
+                                        </table>  
+                                    </div>  
+                                </div>  
+                            </div>  
+                        </div>  
+                    `;  
+                
+                    $(e.target).before(alertMessage);  
+                }  
+            }
         },
         error: function (xhr) {
             let response = xhr.responseJSON;

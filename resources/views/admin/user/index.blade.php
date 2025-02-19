@@ -2,7 +2,11 @@
 
 @section('content')
 <x-card title="Manage User">
-    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+    <div class="d-flex gap-2">
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">Import</button>
+        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exportModal">Export</button>
+    </div>
     <table id="datatables" class="table align-middle nowrap">
         <thead>
             <tr>
@@ -18,6 +22,46 @@
         </thead>
     </table>
 </x-card>
+
+<x-modal id="importModal" centered="true" title="Import User" size="lg">
+    <div class="mb-3">
+        <label class="d-block">Download Template</label>
+        <a href="{{ route('admin.user.export') }}?q=template" class="btn btn-sm btn-primary">Download</a>
+    </div>
+    <form action="{{ route('admin.user.import') }}" action="POST" enctype="multipart/form-data" data-import="true">
+        @csrf
+        <div class="mb-3">
+            <x-input label="File" type="file" name="file" id="file" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-danger">Reset</button>
+    </form>
+</x-modal>
+
+<x-modal id="exportModal" centered="true" title="Export User" size="lg">
+    <form action="{{ route('admin.user.export') }}" method="GET" id="exportForm">
+        @csrf
+        <div class="mb-3">
+            <x-select2
+                name="program_study"  
+                label="Program Study"  
+                id="program_study_export"
+                :options="$programStudy"
+                :isRequired="false"
+            />  
+        </div>
+        <div class="mb-3">
+            <x-select
+                name="type"  
+                label="Type"  
+                id="type_export"
+                :options="$typeExport" 
+            />  
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-danger">Reset</button>
+    </form>
+</x-modal>
 
 <x-modal id="createModal" centered="true" title="Create User" size="lg">  
     <form method="POST">
@@ -110,6 +154,18 @@
             { data: 'program_study.name', name: 'program_study.name' },
             { data: 'action', name: 'action' },
         ],
+    });
+
+    $('#exportForm').on('submit', function(e) {
+        e.preventDefault();
+
+        const form = $(this);
+        const programStudy = form.find('[name="program_study"]').val();
+        const type = form.find('[name="type"]').val();
+
+        const url = `${form.attr('action')}?q=${encodeURIComponent(type)}&s=${encodeURIComponent(programStudy)}`;
+
+        window.location.href = url;
     });
 </script>
 <x-script.update-swal routeGet="admin.user.getById" routeUpdate="admin.user.update">

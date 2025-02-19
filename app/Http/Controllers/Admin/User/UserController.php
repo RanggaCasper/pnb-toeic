@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Admin\User;
 use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\User;
+use Barryvdh\DomPDF\PDF;
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Models\ProgramStudy;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
+use App\Exports\UsersTemplateExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
@@ -18,7 +23,7 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index']),
+            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index','export']),
         ];
     }
 
@@ -26,9 +31,11 @@ class UserController extends Controller implements HasMiddleware
     {
         $programStudy = ProgramStudy::all();
         $gender = ['male' => 'Male', 'female' => 'Female'];
+        $typeExport = ['excel' => 'Excel', 'pdf' => 'PDF'];
         return view('admin.user.index', [
             'programStudy' => $programStudy->pluck('name', 'id')->toArray(),
-            'gender' => $gender
+            'gender' => $gender,
+            'typeExport' => $typeExport
         ]);
     }
 
@@ -139,5 +146,72 @@ class UserController extends Controller implements HasMiddleware
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
         }
+    }
+
+    public function import(Request $request, Excel $excel)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx',
+        ]);
+
+        $import = new UsersImport();  
+
+        try {
+            $excel->import($import, $request->file('file'));
+
+            $failures = $import->getFailures(); 
+            if (count($failures) > 0) {  
+                $failureDetails = [];  
+                foreach ($failures as $failure) {  
+                    $failureDetails[] = [  
+                        'row' => $failure->row(),
+                        'attribute' => $failure->attribute(),
+                        'errors' => $failure->errors(),
+                        'values' => $failure->values(),
+                    ];  
+                }  
+
+                return ResponseFormatter::success('Some rows failed to import.', $failureDetails);  
+            }  
+
+            return ResponseFormatter::success('Data successfully imported.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {  
+            $failures = $e->failures();  
+            return ResponseFormatter::success('Data successfully imported.', $failures);  
+        } catch (\Exception $e) {
+            return ResponseFormatter::handleError($e);
+        }
+    }
+
+    public function export(Request $request, Excel $excel, PDF $pdf)
+    {
+        $type = $request->query('q');
+        $filter = $request->query('f');
+
+        if ($type == 'template') {
+            return $excel->download(new UsersTemplateExport, 'users_template.xlsx');
+        } else if ($type == 'excel') {
+            if ($filter) {
+                return $excel->download(new UsersExport($filter), 'users.xlsx');
+            }
+            return $excel->download(new UsersExport, 'users.xlsx');
+        } else if ($type == 'pdf') {
+            $query = User::with('programStudy');
+            if ($filter) {
+                $query->where('program_study_id', $filter);
+            }
+
+            $data = $query->get();
+
+            $pdf = $pdf->loadView('exports.user', [
+                'data' => $data,
+                'title' => 'List of Users',
+            ]);
+
+            $fileName = "users.pdf";
+            return $pdf->download($fileName);
+        }
+
+        return ResponseFormatter::error('Invalid type of export.');
     }
 }

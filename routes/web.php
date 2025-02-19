@@ -26,6 +26,10 @@ Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->grou
             Route::get('/get/{id}', 'getById')->name('getById');
             Route::put('/update/{id}', 'update')->name('update');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+
+            // Import & Export
+            Route::get('/export', 'export')->name('export');
+            Route::post('/import', 'import')->name('import');
         });
     });
 });
