@@ -44,6 +44,7 @@
                 <x-menu-title title="Menu" />
                 @if (auth()->user()->role->name == "admin")
                     <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('admin.dashboard') }}" active="{{ request()->routeIs('admin.dashboard') }}" />
+                    <x-navlink icon="ri-user-line" title="Manage User" href="{{ route('admin.user.index') }}" active="{{ request()->routeIs('admin.user.index') }}" />
                 @elseif (auth()->user()->role->name == "user")
                     <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('user.dashboard') }}" active="{{ request()->routeIs('user.dashboard') }}" />
                 @endif

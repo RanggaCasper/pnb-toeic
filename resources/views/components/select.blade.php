@@ -1,18 +1,20 @@
 @props([  
     'name',   
+    'id',
     'label' => 'Label',   
     'options' => [],   
     'selected' => null,   
-    'placeholder' => '-- Pilih Opsi --',   
+    'placeholder' => '-- Select Option --',   
     'class' => '',   
     'attr' => null,  
+    'isRequired' => true,
 ])  
 
 <div class="form-group">  
-    <label for="{{ $name }}">{{ $label }}</label>  
+    <label for="{{ $name }}">{{ $label }}</label> @if($isRequired) <span class="text-danger">*</span>@endif
     <select   
         name="{{ $name }}"   
-        id="{{ $name }}"   
+        id="{{ $id }}"   
         class="form-control {{ $class }}"   
         {{ $attr }}   
     >  
@@ -21,9 +23,7 @@
             <option   
                 value="{{ $value }}"   
                 {{ $selected == $value ? 'selected' : '' }}  
-            >  
-                {{ $label }}  
-            </option>  
+            >{{ $label }}</option>  
         @endforeach  
     </select>
 </div>

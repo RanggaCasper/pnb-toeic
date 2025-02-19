@@ -1,8 +1,8 @@
 @props([
-    'title' => 'Apakah anda yakin?',
-    'subtitle' => 'Anda tidak akan dapat mengembalikan data ini!',
-    'titleSuccess' => 'Data berhasil dihapus!',
-    'titleError' => 'Data gagal dihapus!',
+    'title' => 'Are you sure?',
+    'subtitle' => 'You won\'t be able to revert this!',
+    'titleSuccess' => 'Success!',
+    'titleError' => 'Oops!',
     'route',
 ]);
 
@@ -26,7 +26,7 @@
                 confirmButton: "btn btn-primary w-xs me-2 mb-1",
                 cancelButton: "btn btn-danger w-xs mb-1",
             },
-            confirmButtonText: "Ya, Hapus!",
+            confirmButtonText: "Yes, Delete!",
             buttonsStyling: false,
             showCloseButton: true,
         }).then(function (result) {

@@ -4,7 +4,7 @@
     'label' => 'Label',  
     'options' => [],  
     'selected' => null,  
-    'placeholder' => '-- Pilih Opsi --',  
+    'placeholder' => '-- Select Option --',  
     'class' => '',  
     'attr' => null,  
     'isRequired' => true,
@@ -16,6 +16,7 @@
         name="{{ $name }}"  
         id="{{ $id }}"  
         class="form-control select2 {{ $class }}"
+        data-placeholder="{{ $placeholder }}"
         {{ $attr }}  
     >  
         <option></option>
@@ -36,7 +37,7 @@
             $('.select2').each(function () {
                 var $p = $(this).parent();
                 $(this).select2({
-                    placeholder: $(this).data('placeholder') || '-- Pilih Opsi --',
+                    placeholder: $(this).data('placeholder'),
                     allowClear: true,
                     dropdownParent: $p,
                 });

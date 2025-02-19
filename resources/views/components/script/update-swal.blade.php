@@ -1,7 +1,7 @@
 @props([
     'routeGet',
     'routeUpdate',
-    'titleError' => 'Data gagal diupdate!',
+    'titleError' => 'Oops!',
     'hasLoading' => false,
 ])
 

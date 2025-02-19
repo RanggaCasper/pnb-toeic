@@ -22,7 +22,7 @@ $(document).on('submit', 'form', function (e) {
             if (response.status) {
                 $(e.target).before(`
                     <div class="mb-3 text-white alert alert-success alert-dismissible bg-success alert-label-icon fade show material-shadow" role="alert">
-                        <i class="ri-check-line label-icon"></i><strong>Berhasil</strong> - ${response.message}
+                        <i class="ri-check-line label-icon"></i><strong>Success!</strong> - ${response.message}
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 `);
@@ -74,7 +74,7 @@ $(document).on('submit', 'form', function (e) {
                     try {
                         window[value]();
                     } catch (err) {
-                        console.error(`Error saat memanggil fungsi dari data-${key}:`, err);
+                        console.error(`Error when calling data-${key}:`, err);
                     }
                 }
             });

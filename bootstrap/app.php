@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'checkAjax' => \App\Http\Middleware\CheckAjax::class,
             'checkRole' => \App\Http\Middleware\CheckRole::class,
         ]);
     })
