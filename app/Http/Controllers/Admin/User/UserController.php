@@ -17,13 +17,14 @@ use App\Helpers\ResponseFormatter;
 use App\Exports\UsersTemplateExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {
         return [
-            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index','export']),
+            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index','export','profile']),
         ];
     }
 
@@ -36,6 +37,24 @@ class UserController extends Controller implements HasMiddleware
             'programStudy' => $programStudy->pluck('name', 'id')->toArray(),
             'gender' => $gender,
             'typeExport' => $typeExport
+        ]);
+    }
+
+    public function profile()
+    {
+        $id = Auth::user()->id;
+        $userResponse = $this->getById($id);
+        $userData = json_decode($userResponse->getContent(), true); 
+
+        if (!$userData['status']) {
+            abort(404, 'User not found');
+        }
+        $programStudy = ProgramStudy::all();
+        $gender = ['male' => 'Male', 'female' => 'Female'];
+        return view('admin.user.profile', [
+            'programStudy' => $programStudy->pluck('name', 'id')->toArray(),
+            'gender' => $gender,
+            'user' => $userData['data'],
         ]);
     }
 
@@ -117,19 +136,25 @@ class UserController extends Controller implements HasMiddleware
             'birthday' => 'required|max:255|date',
             'gender' => 'required|in:male,female',
             'program_study' => 'required|exists:program_studies,id',
+            'password' => 'nullable|min:6',
         ]);
             
         try {
             $data = User::findOrFail($id);
-
-            $data->update([
+            $updateData = [
                 'identity' => $request->identity,
                 'name' => $request->name,
                 'email' => $request->email,
                 'birthday' => $request->birthday,
                 'gender' => $request->gender,
-                'program_study_id' => $request->program_study
-            ]);
+                'program_study_id' => $request->program_study,
+            ];
+
+            if ($request->filled('password')) {
+                $updateData['password'] = bcrypt($request->password);
+            }
+
+            $data->update($updateData);
 
             return ResponseFormatter::success('Data successfully updated.');
         } catch (\Exception $e) {
