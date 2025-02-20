@@ -21,6 +21,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->grou
     Route::prefix('user')->as('user.')->group(function () {
         Route::controller(\App\Http\Controllers\Admin\User\UserController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/profile', 'profile')->name('profile');
             Route::get('/get', 'get')->name('get');
             Route::post('/', 'store')->name('store');
             Route::get('/get/{id}', 'getById')->name('getById');

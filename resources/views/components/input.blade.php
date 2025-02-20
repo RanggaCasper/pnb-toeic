@@ -7,11 +7,13 @@
     'placeholder' => null,
     'class' => '',
     'attr' => '',
-    'isRequired' => true
+    'isRequired' => true,
+    'notification' => null
 ])
 
 @if($label)
     <label class="form-label" @if($id) for="{{ $id }}" @endif>{{ $label }}</label>@if ($isRequired) <span class="text-danger">*</span> @endif
+    {!! $notification ?? '' !!}
 @endif
 
 @if($type == 'password')
