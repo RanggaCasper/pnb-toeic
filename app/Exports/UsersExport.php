@@ -25,7 +25,9 @@ class UsersExport implements FromCollection, WithHeadings, WithStyles, WithEvent
 
     public function collection()
     {
-        $query = User::with('programStudy')->select('name', 'identity', 'gender', 'program_study_id');
+        $query = User::whereHas('role', function ($query) {
+            $query->where('name', 'user');
+        })->with('programStudy')->select('name', 'identity', 'gender', 'program_study_id');
 
         // Jika ada filter, tambahkan kondisi where
         if ($this->filter) {

@@ -14,7 +14,7 @@
                 <th>Identity</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Birthday</th>
+                <th>Date of Birth</th>
                 <th>Gender</th>
                 <th>Program Study</th>
                 <th>Action</th>

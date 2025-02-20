@@ -7,8 +7,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware('guest')->group(function () {
+    // Login
     Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'index'])->name('login');
     Route::post('/login', [\App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login.submit');
+
+    // Forgot
+    Route::get('/forgot', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'index'])->name('forgot');
+    Route::post('/forgot', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'store'])->name('forgot.store');
+    Route::post('/forgot/send', [\App\Http\Controllers\Auth\ForgotPasswordController::class, 'send'])->name('forgot.send');
 });
 
 Route::post('auth/logout', [\App\Http\Controllers\Auth\LogoutController::class, 'logout'])->middleware('auth')->name('logout');

@@ -196,7 +196,9 @@ class UserController extends Controller implements HasMiddleware
             }
             return $excel->download(new UsersExport, 'users.xlsx');
         } else if ($type == 'pdf') {
-            $query = User::with('programStudy');
+            $query = User::whereHas('role', function ($query) {
+                        $query->where('name', 'user');
+                    })->with('programStudy');
             if ($filter) {
                 $query->where('program_study_id', $filter);
             }

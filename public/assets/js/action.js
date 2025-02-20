@@ -157,9 +157,16 @@ $(document).on('submit', 'form', function (e) {
     
                         input.addClass('is-invalid');
     
-                        input.after(`
-                            <div class="error-message text-danger mt-1">${message[0]}</div>
-                        `);
+                        let inputGroup = input.closest('.input-group');
+                        if (inputGroup.length > 0) {
+                            inputGroup.after(`
+                                <div class="error-message text-danger mt-1">${message[0]}</div>
+                            `);
+                        } else {
+                            input.after(`
+                                <div class="error-message text-danger mt-1">${message[0]}</div>
+                            `);
+                        }
                     });
                 } else {
                     $(e.target).before(`
