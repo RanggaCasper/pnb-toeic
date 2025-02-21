@@ -20,7 +20,7 @@ Route::middleware('guest')->group(function () {
 Route::post('auth/logout', [\App\Http\Controllers\Auth\LogoutController::class, 'logout'])->middleware('auth')->name('logout');
 
 // Admin
-Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->group(function () {
+Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
     Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
@@ -44,9 +44,31 @@ Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->grou
 });
 
 // User
-Route::prefix('user')->as('user.')->middleware('auth','checkRole:user')->group(function () {
+Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(function () {
     Route::get('/', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
     Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+});
+
+Route::prefix('super')->as('super.')->middleware('auth', 'checkRole:super')->group(function () {
+    Route::get('/', [\App\Http\Controllers\super\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+
+    Route::prefix('admin')->as('admin.')->group(function () {
+        Route::controller(\App\Http\Controllers\super\admin\AdminController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/get', 'get')->name('get');
+            Route::post('/', 'store')->name('store');
+            Route::get('/get/{id}', 'getById')->name('getById');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+
+            // Import & Export
+            Route::get('/export', 'export')->name('export');
+            Route::post('/import', 'import')->name('import');
+        });
+    });
 });
