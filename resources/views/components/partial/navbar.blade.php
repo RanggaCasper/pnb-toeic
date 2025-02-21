@@ -23,7 +23,7 @@
             </button>
             <div class="dropdown-menu dropdown-menu-end">
                 <h6 class="dropdown-header">Hi!, {{ auth()->user()->name }}</h6>
-                <a class="dropdown-item" href="{{ route('admin.user.profile')}}"><i class="align-middle mdi mdi-account-circle text-muted fs-16 me-1"></i> <span class="align-middle">Profile</span></a>
+                <a class="dropdown-item" href="{{ route(strtolower(auth()->user()->role->name) . '.profile')}}"><i class="align-middle mdi mdi-account-circle text-muted fs-16 me-1"></i> <span class="align-middle">Profile</span></a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="dropdown-item"><i class="align-middle mdi mdi-logout text-muted fs-16 me-1"></i> <span class="align-middle" data-key="t-logout">Keluar</span></button>

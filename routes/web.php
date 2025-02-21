@@ -22,12 +22,14 @@ Route::post('auth/logout', [\App\Http\Controllers\Auth\LogoutController::class, 
 // Admin
 Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
     // User
     Route::prefix('user')->as('user.')->group(function () {
         Route::controller(\App\Http\Controllers\Admin\User\UserController::class)->group(function () {
             Route::get('/', 'index')->name('index');
-            Route::get('/profile', 'profile')->name('profile');
             Route::get('/get', 'get')->name('get');
             Route::post('/', 'store')->name('store');
             Route::get('/get/{id}', 'getById')->name('getById');
@@ -44,4 +46,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth','checkRole:admin')->grou
 // User
 Route::prefix('user')->as('user.')->middleware('auth','checkRole:user')->group(function () {
     Route::get('/', [\App\Http\Controllers\User\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 });
