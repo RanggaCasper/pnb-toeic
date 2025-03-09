@@ -1,7 +1,7 @@
 <div class="card">
     @isset($title)
         <div class="card-header">
-            <h4 class="mb-0 card-title">{{ $title }}</h4>
+            <h4 class="mb-0 card-title">{!! $title !!}</h4>
         </div>
     @endisset
     
