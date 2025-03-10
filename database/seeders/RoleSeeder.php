@@ -14,16 +14,16 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        Role::create([
+        Role::firstOrCreate([
             'name' => 'admin'
         ]);
         //super admin
-        Role::create([
+        Role::firstOrCreate([
             'name' => 'super'
         ]);
 
         // User
-        Role::create([
+        Role::firstOrCreate([
             'name' => 'user'
         ]);
     }

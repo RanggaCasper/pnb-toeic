@@ -22,3 +22,4 @@ Table users {
     role_id int [ref: > roles.id]
     program_study_id int [ref: > program_studies.id]
 }
+

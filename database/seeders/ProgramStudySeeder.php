@@ -13,7 +13,7 @@ class ProgramStudySeeder extends Seeder
      */
     public function run(): void
     {
-        ProgramStudy::create([
+        ProgramStudy::firstOrCreate([
             'name' => 'Teknologi Rekayasa Perangkat Lunak'
         ]);
     }

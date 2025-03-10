@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Admin
-        User::create([
+        User::firstOrCreate([
             'identity' => '01',
             'name' => 'Admin',
             'email' => 'admin@example.com',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         ]);
 
         // User
-        User::create([
+        User::firstOrCreate([
             'identity' => '02',
             'name' => 'user',
             'email' => 'user@gmail.com',
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
         ]);
 
         //super
-        User::create([
+        User::firstOrCreate([
             'identity' => '03',
             'name' => 'Super',
             'email' => 'Super@example.com',
