@@ -74,9 +74,9 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
     Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
-        // Token
+    // Token
     Route::prefix('token')->as('token.')->group(function () {
-        Route::controller(\App\Http\Controllers\Admin\Token\TokenController::class)->group(function () {
+        Route::controller(\App\Http\Controllers\User\Token\TokenController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/get/{id}', 'getByToken')->name('getByToken');
         });

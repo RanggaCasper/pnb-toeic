@@ -9,15 +9,13 @@ class Token extends Model
 {
     /** @use HasFactory<\Database\Factories\TokenFactory> */
     use HasFactory;
-    protected $fillable = [
-        'token',
-        'mulai',
-        'selesai',
-        'bank_id',
-    ];
-    public function bank_soal()
+    
+    protected $table = 'tokens';
+
+    protected $guarded = ['id'];
+
+    public function bankSoal()
     {
         return $this->belongsTo(BankSoal::class, 'bank_id');
     }
-
 }

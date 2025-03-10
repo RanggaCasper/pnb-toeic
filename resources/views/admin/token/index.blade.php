@@ -23,10 +23,10 @@
     <form method="POST">
         @csrf
         <div class="mb-3">
-            <x-input label="Time Start" type="datetime-local" name="mulai" id="mulai" />
+            <x-input label="Time Start" type="datetime-local" name="start_at" id="start_at" />
         </div>
         <div class="mb-3">
-            <x-input label="Time End" type="datetime-local" name="selesai" id="selesai" />
+            <x-input label="Time End" type="datetime-local" name="end_at" id="end_at" />
         </div>
         <div class="mb-3">
             <x-select
@@ -46,10 +46,10 @@
         @csrf
         @method('put')
         <div class="mb-3">
-            <x-input label="Time Start" type="datetime-local" name="mulai" id="mulai_update" />
+            <x-input label="Time Start" type="datetime-local" name="start_at" id="start_update" />
         </div>
         <div class="mb-3">
-            <x-input label="Time End" type="datetime-local" name="selesai" id="selesai_update" />
+            <x-input label="Time End" type="datetime-local" name="end_at" id="end_update" />
         </div>
         <div class="mb-3">
             <x-select
@@ -84,8 +84,8 @@
 
 </script>
 <x-script.update-swal routeGet="admin.token.getById" routeUpdate="admin.token.update">
-    $('#mulai_update').val(response.data.mulai);
-    $('#selesai_update').val(response.data.selesai);
+    $('#start_update').val(response.data.start_at);
+    $('#end_update').val(response.data.end_at);
     $('#bank_id_update').val(response.data.bank_id);
 </x-script.update-swal>
 <x-script.delete-swal route="admin.token.destroy" />

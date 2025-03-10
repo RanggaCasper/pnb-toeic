@@ -9,10 +9,12 @@ class BankSoal extends Model
 {
     /** @use HasFactory<\Database\Factories\BankSoalFactory> */
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'type',
-        'is_active'
-    ];
+    
+    protected $table = 'bank_soals';
 
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'status' => 'boolean'
+    ];
 }

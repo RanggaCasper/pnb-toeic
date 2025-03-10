@@ -24,7 +24,7 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware()
     {
         return [
-            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index','export','profile']),
+            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index','export']),
         ];
     }
 

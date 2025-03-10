@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'gender' => 'male',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'birthday' => '2000-01-01',
             'role_id' => Role::where('name', 'admin')->first()->id,
             // 'program_study_id' => ProgramStudy::where('name', 'Teknologi Rekayasa Perangkat Lunak')->first()->id
@@ -33,7 +34,7 @@ class UserSeeder extends Seeder
             'name' => 'user',
             'email' => 'user@gmail.com',
             'gender' => 'male',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'birthday' => '2000-01-01',
             'role_id' => Role::where('name', 'user')->first()->id,
             'program_study_id' => ProgramStudy::where('name', 'Teknologi Rekayasa Perangkat Lunak')->first()->id
@@ -45,7 +46,7 @@ class UserSeeder extends Seeder
             'name' => 'Super',
             'email' => 'Super@example.com',
             'gender' => 'male',
-            'password' => bcrypt('password'),
+            'password' => Hash::make('password'),
             'birthday' => '2000-01-01',
             'role_id' => Role::where('name', 'super')->first()->id,
             // 'program_study_id' => ProgramStudy::where('name', 'Teknologi Rekayasa Perangkat Lunak')->first()->id

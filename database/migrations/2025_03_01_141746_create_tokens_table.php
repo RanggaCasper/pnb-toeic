@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tokens', function (Blueprint $table) {
             $table->id();
             $table->string('token')->unique();
-            $table->dateTime('mulai', precision: 0);
-            $table->dateTime('selesai', precision: 0);
+            $table->dateTime('start_at', precision: 0);
+            $table->dateTime('end_at', precision: 0);
             $table->unsignedBigInteger('bank_id');
             $table->foreign('bank_id')->references('id')->on('bank_soals')->onDelete('cascade');
             $table->timestamps();

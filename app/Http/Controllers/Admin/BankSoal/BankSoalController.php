@@ -5,17 +5,25 @@ namespace App\Http\Controllers\Admin\BankSoal;
 use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseFormatter;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Yajra\DataTables\DataTables;
 
-class BankSoalController extends Controller
+class BankSoalController extends Controller implements HasMiddleware
 {
+    public static function middleware()
+    {
+        return [
+            (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index']),
+        ];
+    }
+
     public function index()
     {
         return view('admin.bankSoal.index');
     }
+
     public function get(): JsonResponse
     {
         try {
@@ -32,8 +40,8 @@ class BankSoalController extends Controller
                 return ucfirst($row->type);
             })
             ->addColumn('status', function ($row) {
-                $status = $row->is_active == "1" ? " bg-success" : "bg-danger";
-                return '<span class="badge rounded-pill '.$status.'">'.( $row->is_active == 1 ? 'active' : 'nonactive').'</span>';  
+                $status = $row->is_active ? " bg-success" : "bg-danger";
+                return '<span class="badge rounded-pill '.$status.'">'.( $row->is_active ? 'Active' : 'Nonactive').'</span>';  
             })
             ->addColumn('action', function ($row) {  
                 return '
@@ -65,6 +73,7 @@ class BankSoalController extends Controller
             'type' => 'required|in:tryout,practice',
             'is_active' => 'in:true,null',
         ]);
+        
         try {
             BankSoal::create([
                 'name' => $request->name,
