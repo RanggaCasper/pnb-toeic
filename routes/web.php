@@ -41,6 +41,30 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin')->gro
             Route::post('/import', 'import')->name('import');
         });
     });
+
+    // BankSoal
+    Route::prefix('bank')->as('bank.')->group(function () {
+        Route::controller(\App\Http\Controllers\Admin\BankSoal\BankSoalController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/get', 'get')->name('get');
+            Route::post('/', 'store')->name('store');
+            Route::get('/get/{id}', 'getById')->name('getById');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+    });
+
+    // Token
+    Route::prefix('token')->as('token.')->group(function () {
+        Route::controller(\App\Http\Controllers\Admin\Token\TokenController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/get', 'get')->name('get');
+            Route::post('/', 'store')->name('store');
+            Route::get('/get/{id}', 'getById')->name('getById');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+        });
+    });
 });
 
 // User
@@ -49,6 +73,14 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
     Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
     Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+
+        // Token
+    Route::prefix('token')->as('token.')->group(function () {
+        Route::controller(\App\Http\Controllers\Admin\Token\TokenController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/get/{id}', 'getByToken')->name('getByToken');
+        });
+    });
 });
 
 Route::prefix('super')->as('super.')->middleware('auth', 'checkRole:super')->group(function () {
