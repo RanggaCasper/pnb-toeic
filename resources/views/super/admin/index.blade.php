@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<x-card title="Manage User">
+<x-breadcrumb title="Admin" li_1="Menu" />
+<x-card title="Manage Admin">
     <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
-
     </div>
     <table id="datatables" class="table align-middle nowrap">
         <thead>
@@ -22,7 +22,7 @@
     </table>
 </x-card>
 
-<x-modal id="createModal" centered="true" title="Create User" size="lg">
+<x-modal id="createModal" centered="true" title="Create Admin" size="lg">
     <form method="POST">
         @csrf
         <div class="mb-3">
@@ -56,7 +56,7 @@
     </form>
 </x-modal>
 
-<x-modal id="updateModal" centered="true" title="Update User" size="lg">
+<x-modal id="updateModal" centered="true" title="Update Admin" size="lg">
     <form method="POST" id="form_update">
         @csrf
         @method('put')

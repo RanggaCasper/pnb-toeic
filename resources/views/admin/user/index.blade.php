@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<x-breadcrumb title="User" li_1="Menu" />
 <x-card title="Manage User">
     <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
