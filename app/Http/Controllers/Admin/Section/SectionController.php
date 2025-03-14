@@ -47,12 +47,24 @@ class SectionController extends Controller implements HasMiddleware
             })
             ->addColumn('action', function ($row) {
                 return '
+                <button type="button" class="btn btn-info btn-sm preview-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#previewModal">Preview</button>
                 <button type="button" class="btn btn-primary btn-sm edit-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
                 <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'. $row->id .'">Delete</button>
                 ';
             })
             ->rawColumns(['action'])
             ->make(true);
+        } catch (\Exception $e) {
+            return ResponseFormatter::handleError($e);
+        }
+    }
+
+    public function preview($id)
+    {
+        try {
+            return ResponseFormatter::success('Data successfully retrieved.', view('admin.section.section.preview',[
+                'data' => Section::with('sectionName')->findOrFail($id)
+            ])->render());
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
         }

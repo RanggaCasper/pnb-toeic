@@ -53,7 +53,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
-
+    
     // Token
     Route::prefix('token')->as('token.')->group(function () {
         Route::controller(\App\Http\Controllers\Admin\Token\TokenController::class)->group(function () {
@@ -65,7 +65,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
         });
     });
-
+    
     // Section
     Route::prefix('section')->as('section.')->group(function () {
         // Section
@@ -76,6 +76,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
             Route::get('/get/{id}', 'getById')->name('getById');
             Route::put('/update/{id}', 'update')->name('update');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::get('/preview/{id}', 'preview')->name('preview');
         });
 
         // Section Name

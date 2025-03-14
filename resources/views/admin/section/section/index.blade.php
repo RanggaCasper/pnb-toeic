@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<x-breadcrumb title="Section Name" li_1="Menu" />
+<x-breadcrumb title="Section" li_1="Menu" />
 <x-card title="Manage Question Section">
     <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
@@ -40,9 +40,10 @@
         <div class="mb-3">
             <x-filepond 
                 class="filepond-image" 
-                label="Upload Gambar" 
+                label="Upload Image" 
                 name="image"
                 id="image"
+                :isRequired="false"
             />
         </div>
         <div class="mb-3 d-none" id="audioInput">
@@ -100,6 +101,10 @@
         <button type="reset" class="btn btn-danger">Reset</button>
     </form>
 </x-modal>
+
+<x-modal id="previewModal" centered="true" title="Preview Question Section" size="lg">
+
+</x-modal>
 @endsection
 
 @push('scripts')
@@ -132,6 +137,51 @@
                 }
             }
         })
+    });
+
+    $('#datatables').on('click', '.preview-btn', function() {
+        var id = $(this).data('id');
+        $.ajax({
+            url: '{{ route("admin.section.preview", ["id" => ":id"]) }}'.replace(':id', id),
+            type: 'GET',
+            beforeSend: function () {
+                $('#previewModal .modal-body').html('<p class="text-muted">Fetching data...</p>');
+            },
+            success: function(response) {
+                console.log(response);
+                $('#previewModal .modal-body').html(response.data);
+            },
+            error: function (xhr) {
+                let response = xhr.responseJSON;
+                let message; 
+                
+                if (response.errors) {
+                    message = response.errors;
+                } else {
+                    message = response.message;
+                }
+                
+                Swal.fire({
+                    html: `
+                        <div class="mt-3">
+                            <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
+                            <div class="pt-2 mt-4 fs-15">
+                                <h4>Oops!</h4>
+                                <p class="mx-4 mb-0 text-muted">${message}</p>
+                            </div>
+                        </div>
+                    `,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    customClass: {
+                        cancelButton: "btn btn-primary w-xs mb-1",
+                    },
+                    cancelButtonText: "Back",
+                    buttonsStyling: false,
+                    showCloseButton: true,
+                });
+            },
+        });
     });
 </script>
 <x-script.update-swal routeGet="admin.section.getById" routeUpdate="admin.section.update">
