@@ -11,13 +11,12 @@ class EmailToken extends Model
 
     protected $guarded = ['id'];
 
-    public $timestamps = true; 
+    public $timestamps = true;
 
     public function generateToken($length = 8)
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';
-        $length = $length;
 
         for ($i = 0; $i < $length; $i++) {
             $code .= $characters[random_int(0, strlen($characters) - 1)];

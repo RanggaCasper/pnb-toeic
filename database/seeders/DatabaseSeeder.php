@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Section\Section;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,7 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             ProgramStudySeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            SectionNameSeeder::class
         ]);
     }
 }

@@ -3,7 +3,7 @@ $(document).on('submit', 'form', function (e) {
 
     $(this).find('.form-control').removeClass('is-invalid');
     $('.alert').remove();
-    $('.error-message').remove();
+    $('.invalid-feedback').remove();
     $('#errorAccordion').remove();
 
     let button = $(this).find('button[type="submit"]');
@@ -20,6 +20,7 @@ $(document).on('submit', 'form', function (e) {
         contentType: false,
         processData: false,
         success: function (response) {
+            // Alert Success
             if (response.status) {
                 $(e.target).before(`
                     <div class="mb-3 text-white alert alert-success alert-dismissible bg-success alert-label-icon fade show material-shadow" role="alert">
@@ -34,6 +35,7 @@ $(document).on('submit', 'form', function (e) {
                 }
             }
 
+            // Redirect
             if (response.redirect_url) {
                 if ($.fn.DataTable) {
                     $('.dataTable').each(function () {
@@ -46,6 +48,7 @@ $(document).on('submit', 'form', function (e) {
                 window.location.href = response.redirect_url;
             }
 
+            // Reload DataTable
             if ($.fn.DataTable) {
                 $('.dataTable').each(function () {
                     if ($.fn.DataTable.isDataTable(this)) {
@@ -54,6 +57,7 @@ $(document).on('submit', 'form', function (e) {
                 });
             }
 
+            // Reset form
             if (!$(e.target).attr('id')?.endsWith('_update')) {
                 if ($(e.target).data('reset') !== false) {
                     $(e.target).trigger('reset');
@@ -70,6 +74,7 @@ $(document).on('submit', 'form', function (e) {
                 }
             }
 
+            // Call data-* functions
             $.each($(e.target).data(), function (key, value) {
                 if (typeof window[value] === 'function') {
                     try {
@@ -80,6 +85,15 @@ $(document).on('submit', 'form', function (e) {
                 }
             });
 
+            // Reset Filepond
+            $('.filepond').each(function() {
+                let filePond = FilePond.find(this);
+                if (filePond != null) {
+                    filePond.removeFiles();
+                }
+            });
+
+            // Show errors
             if (response.data && response.data.length > 0) {
                 if ($(e.target).data('import')) {
                     let alertMessage = `  
@@ -132,6 +146,7 @@ $(document).on('submit', 'form', function (e) {
             let response = xhr.responseJSON;
             let errors = response.errors;
 
+            // Show errors
             if ('status' in response) {
                 if (response.errors) {  
                     $(e.target).before(`  
@@ -158,13 +173,17 @@ $(document).on('submit', 'form', function (e) {
                         input.addClass('is-invalid');
     
                         let inputGroup = input.closest('.input-group');
+                        let filepondLabel = $('.filepond-label');
                         if (inputGroup.length > 0) {
                             inputGroup.after(`
-                                <div class="error-message text-danger mt-1">${message[0]}</div>
+                                <div class="invalid-feedback">${message[0]}</div>
                             `);
                         } else {
+                            filepondLabel.after(`
+                                <div class="invalid-feedback">${message[0]}</div>
+                            `);
                             input.after(`
-                                <div class="error-message text-danger mt-1">${message[0]}</div>
+                                <div class="invalid-feedback">${message[0]}</div>
                             `);
                         }
                     });
