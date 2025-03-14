@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('audio')->nullable();
             $table->unsignedBigInteger('bank_id');
             $table->unsignedBigInteger('section_name_id');
-            $table->foreign('bank_id')->references('id')->on('bank_soals')->onDelete('cascade');
+            $table->foreign('bank_id')->references('id')->on('question_banks')->onDelete('cascade');
             $table->foreign('section_name_id')->references('id')->on('section_names')->onDelete('cascade');
             $table->timestamps();
         });

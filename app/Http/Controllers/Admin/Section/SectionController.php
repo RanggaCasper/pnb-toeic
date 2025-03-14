@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Section;
 
-use App\Models\BankSoal;
+use App\Models\QuestionBank;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Section\Section;
@@ -12,10 +12,8 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
 use App\Models\Section\SectionName;
 use App\Http\Controllers\Controller;
-use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use RahulHaque\Filepond\Facades\Filepond;
-use Intervention\Image\Drivers\Imagick\Driver;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class SectionController extends Controller implements HasMiddleware
@@ -30,7 +28,7 @@ class SectionController extends Controller implements HasMiddleware
     public function index()
     {
         $names = SectionName::all();
-        $banks = BankSoal::all();
+        $banks = QuestionBank::all();
 
         return view('admin.section.section.index',[
             'names' => $names->pluck('name', 'id')->toArray(),
@@ -83,7 +81,7 @@ class SectionController extends Controller implements HasMiddleware
                 'mimes:mp3',
                 'max:5000'
             ]),
-            'bank_id' => 'required|exists:bank_soals,id',
+            'bank_id' => 'required|exists:question_banks,id',
             'section_name_id' => 'required|exists:section_names,id',
         ]);
 
@@ -124,7 +122,7 @@ class SectionController extends Controller implements HasMiddleware
                 'mimes:mp3',
                 'max:5000'
             ]),
-            'bank_id' => 'required|exists:bank_soals,id',
+            'bank_id' => 'required|exists:question_banks,id',
             'section_name_id' => 'required|exists:section_names,id',
         ]);
 

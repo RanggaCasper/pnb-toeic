@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bank_soals', function (Blueprint $table) {
+        Schema::create('question_banks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->enum('type', ['tryout', 'practice']);
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bank_soals');
+        Schema::dropIfExists('question_banks');
     }
 };

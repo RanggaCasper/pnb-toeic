@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin\BankSoal;
+namespace App\Http\Controllers\Admin\QuestionBank;
 
-use App\Models\BankSoal;
+use App\Models\QuestionBank;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -10,7 +10,7 @@ use App\Helpers\ResponseFormatter;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Yajra\DataTables\DataTables;
 
-class BankSoalController extends Controller implements HasMiddleware
+class QuestionBankController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {
@@ -21,13 +21,13 @@ class BankSoalController extends Controller implements HasMiddleware
 
     public function index()
     {
-        return view('admin.bankSoal.index');
+        return view('admin.bank.index');
     }
 
     public function get(): JsonResponse
     {
         try {
-            $data = BankSoal::all();
+            $data = QuestionBank::all();
             return DataTables::of($data)  
             ->addColumn('no', function ($row) {  
                 static $counter = 0;  
@@ -59,7 +59,7 @@ class BankSoalController extends Controller implements HasMiddleware
     public function getById($id): JsonResponse
     {
         try {
-            $data = BankSoal::findOrFail($id);
+            $data = QuestionBank::findOrFail($id);
             return ResponseFormatter::success('Data successfully retrieved.', $data);
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
@@ -75,7 +75,7 @@ class BankSoalController extends Controller implements HasMiddleware
         ]);
         
         try {
-            BankSoal::create([
+            QuestionBank::create([
                 'name' => $request->name,
                 'type' => $request->type,
                 'is_active' => $request->is_active != null ? true : false,
@@ -97,7 +97,7 @@ class BankSoalController extends Controller implements HasMiddleware
         ]);
             
         try {
-            $data = BankSoal::findOrFail($id);
+            $data = QuestionBank::findOrFail($id);
             $updateData = [
                 'name' => $request->name,
                 'type' => $request->type,
@@ -114,7 +114,7 @@ class BankSoalController extends Controller implements HasMiddleware
     public function destroy($id): JsonResponse
     {
         try {
-            $data = BankSoal::findOrFail($id);
+            $data = QuestionBank::findOrFail($id);
             $data->delete();
             return ResponseFormatter::success('Data successfully deleted.');   
         } catch (\Exception $e) {

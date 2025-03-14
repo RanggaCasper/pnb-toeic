@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Token;
 
 use App\Models\Token;
-use App\Models\BankSoal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str; 
 use Illuminate\Support\Carbon;
@@ -11,7 +10,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\QuestionBank;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class TokenController extends Controller implements HasMiddleware
@@ -25,21 +24,21 @@ class TokenController extends Controller implements HasMiddleware
 
     public function index()
     {
-        $bank = BankSoal::all();
+        $bank = QuestionBank::all();
         return view('admin.token.index',['bank' => $bank->pluck('name', 'id')->toArray()]);
     }
 
     public function get(): JsonResponse
     {
         try {
-            $data = Token::with(['bankSoal'])->get();
+            $data = Token::with(['questionBank'])->get();
             return DataTables::of($data)  
             ->addColumn('no', function ($row) {  
                 static $counter = 0;  
                 return ++$counter;
             })
             ->addColumn('bank', function ($row) {  
-                return $row->bankSoal->name;
+                return $row->questionBank->name;
             })
             ->addColumn('token', function ($row) {  
                 return $row->token;
@@ -78,7 +77,7 @@ class TokenController extends Controller implements HasMiddleware
         $request->validate([
             'start_at' => 'required|date',
             'end_at' => 'required|date',
-            'bank_id' => 'required|exists:bank_soals,id',
+            'bank_id' => 'required|exists:question_banks,id',
         ]);
         try {
             Token::create([
@@ -99,7 +98,7 @@ class TokenController extends Controller implements HasMiddleware
         $request->validate([
             'start_at' => 'required|date',
             'end_at' => 'required|date',
-            'bank_id' => 'required|exists:bank_soals,id',
+            'bank_id' => 'required|exists:question_banks,id',
         ]);
 
         try {

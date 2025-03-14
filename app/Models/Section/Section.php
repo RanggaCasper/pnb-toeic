@@ -2,7 +2,7 @@
 
 namespace App\Models\Section;
 
-use App\Models\BankSoal;
+use App\Models\QuestionBank;
 use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
@@ -18,6 +18,6 @@ class Section extends Model
 
     public function questionBank(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(BankSoal::class, 'bank_id');
+        return $this->belongsTo(QuestionBank::class, 'bank_id');
     }
 }

@@ -13,7 +13,7 @@ class EmailToken extends Model
 
     public $timestamps = true;
 
-    public function generateToken($length = 8)
+    public function generateToken($length = 8): string
     {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';

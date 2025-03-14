@@ -50,12 +50,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function role()
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
 
-    public function programStudy()
+    public function programStudy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(ProgramStudy::class);
     }

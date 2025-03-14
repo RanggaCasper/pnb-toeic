@@ -14,8 +14,8 @@ class Token extends Model
 
     protected $guarded = ['id'];
 
-    public function bankSoal()
+    public function questionBank(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(BankSoal::class, 'bank_id');
+        return $this->belongsTo(QuestionBank::class, 'bank_id');
     }
 }

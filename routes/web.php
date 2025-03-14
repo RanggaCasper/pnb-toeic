@@ -42,9 +42,9 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
         });
     });
 
-    // BankSoal
+    // Question Bank
     Route::prefix('bank')->as('bank.')->group(function () {
-        Route::controller(\App\Http\Controllers\Admin\BankSoal\BankSoalController::class)->group(function () {
+        Route::controller(\App\Http\Controllers\Admin\QuestionBank\QuestionBankController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/get', 'get')->name('get');
             Route::post('/', 'store')->name('store');
