@@ -28,12 +28,12 @@
 				<ul class="rounded nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
 					<li class="nav-item" role="presentation">
 						<a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab" aria-selected="true">
-							<i class="fas fa-home"></i> Informasi Akun
+							<i class="fas fa-home"></i> Personal Details
 						</a>
 					</li>
 					<li class="nav-item" role="presentation">
 						<a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab" aria-selected="false" tabindex="-1">
-							<i class="far fa-user"></i> Ganti Password
+							<i class="far fa-user"></i> Change Password
 						</a>
 					</li>
 				</ul>
@@ -41,13 +41,13 @@
 			<div class="p-4 card-body">
 				<div class="tab-content">
 					<div class="tab-pane active show" id="personalDetails" role="tabpanel">
-						<form action="{{ route(strtolower(auth()->user()->role->name) . '.profile.update', auth()->user()->id) }}" method="POST">
+						<form action="{{ route(strtolower(auth()->user()->role->name) . '.profile.update', auth()->user()->id) }}" method="POST" data-reset="false">
 							@csrf
 							@method('put')
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="mb-3">
-										<x-input label="Nama" type="text" name="name" value="{{ auth()->user()->name }}" attr="readonly"/>
+										<x-input label="Name" type="text" name="name" value="{{ auth()->user()->name }}" attr="readonly"/>
 										</div>
 									</div>
 									<div class="col-lg-6">
@@ -62,7 +62,7 @@
 											</div>
 											<div class="col-lg-6">
 												<div class="mb-3">
-													<x-input label="Birth Day" type="date" name="birthday" value="{{ auth()->user()->birthday }}"/>
+													<x-input label="Date of Birth" type="date" name="birthday" value="{{ auth()->user()->birthday }}"/>
 													</div>
 												</div>
 												<div class="col-lg-6">
@@ -89,7 +89,7 @@
 													@csrf
 													<div class="mb-3 row g-2">
 														<div class="col-lg-6">
-															<label class="form-label" for="password-input">Password Lama</label>
+															<label class="form-label" for="password-input">Old Password</label>
 															<div class="position-relative auth-pass-inputgroup">
 																<input type="password" name="old_password" class="form-control pe-5 password-input " placeholder="Enter password" id="password-input">
 																<button class="top-0 btn btn-link position-absolute end-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="align-middle ri-eye-fill"></i></button>
@@ -99,7 +99,7 @@
 													</div>
 													<div class="mb-3 row g-2">
 														<div class="col-lg-6">
-															<label class="form-label" for="new-password-input">Password Baru</label>
+															<label class="form-label" for="new-password-input">Password</label>
 															<div class="position-relative auth-pass-inputgroup">
 																<input type="password" name="password" class="form-control pe-5 password-input " placeholder="Enter password" id="new-password-input">
 																<button class="top-0 btn btn-link position-absolute end-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="align-middle ri-eye-fill"></i></button>
@@ -107,7 +107,7 @@
 														</div>
 														<!--end col-->
 														<div class="col-lg-6">
-															<label class="form-label" for="current-password-input">Konfirmasi Password</label>
+															<label class="form-label" for="current-password-input">Confirm Password</label>
 															<div class="position-relative auth-pass-inputgroup">
 																<input type="password" name="confirm_password" class="form-control pe-5 password-input " placeholder="Enter password" id="current-password-input">
 																<button class="top-0 btn btn-link position-absolute end-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="align-middle ri-eye-fill"></i></button>
