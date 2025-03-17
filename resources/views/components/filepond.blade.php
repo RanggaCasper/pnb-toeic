@@ -67,6 +67,15 @@
                     maxFileSize: {{ 1000000 * $maxFileSizeImage }},
                     labelMaxFileSizeExceed: 'Maximum file size is {filesize}',
                     maxFiles: 1,
+                    onaddfilestart: () => {
+                        $('button[type="submit"]').prop('disabled', true);
+                    },
+                    onprocessfile: () => {
+                        $('button[type="submit"]').prop('disabled', false);
+                    },
+                    onerror: () => {
+                        $('button[type="submit"]').prop('disabled', false);
+                    }
                 });
             });
 
