@@ -36,10 +36,10 @@ class SectionController extends Controller implements HasMiddleware
         ]);
     }
 
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
         try {
-            $data = Section::with('sectionName')->get();
+            $data = Section::with('sectionName')->where('bank_id', $request->uuid)->get();
             return DataTables::of($data)
             ->addColumn('no', function ($row) {
                 static $counter = 0;
@@ -98,6 +98,14 @@ class SectionController extends Controller implements HasMiddleware
         ]);
 
         try {
+            $existingSection = Section::where('bank_id', $request->bank_id)
+                ->where('section_name_id', $request->section_name_id)
+                ->exists();
+
+            if ($existingSection) {
+                return ResponseFormatter::error('Section already exists.');
+            }
+
             if ($request->has('image')) {
                 $path = Filepond::field($request->image)->moveTo('images/' . Str::uuid());
                 $request->merge(['image' => $path['location']]);
@@ -139,6 +147,15 @@ class SectionController extends Controller implements HasMiddleware
         ]);
 
         try {
+            $existingSection = Section::where('bank_id', $request->bank_id)
+                ->where('section_name_id', $request->section_name_id)
+                ->where('id', '!=', $id)
+                ->exists();
+
+            if ($existingSection) {
+                return ResponseFormatter::error('Section already exists.');
+            }
+            
             $section = Section::findOrFail($id);
             
             if ($request->has('image')) {

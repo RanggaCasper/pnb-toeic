@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->dateTime('start_at', precision: 0);
             $table->dateTime('end_at', precision: 0);
-            $table->unsignedBigInteger('bank_id');
-            $table->foreign('bank_id')->references('id')->on('question_banks')->onDelete('cascade');
+            $table->foreignUuid('bank_id')->constrained('question_banks');
             $table->timestamps();
         });
     }

@@ -21,20 +21,15 @@
 <x-modal id="createModal" centered="true" title="Create Question Section" size="lg">  
     <form method="POST" enctype="multipart/form-data">
         @csrf
+        <div class="d-none">
+            <input type="hidden" name="bank_id" value="{{ request('uuid') }}" />
+        </div>
         <div class="mb-3">
             <x-select
             name="section_name_id"  
             label="Name"  
             id="name"
             :options="$names" 
-            />  
-        </div>
-        <div class="mb-3">
-            <x-select
-            name="bank_id"  
-            label="Bank Question"  
-            id="bankQuestion"
-            :options="$banks" 
             />  
         </div>
         <div class="mb-3">
@@ -63,21 +58,16 @@
 <x-modal id="updateModal" centered="true" title="Update Question Section" size="lg">  
     <form method="POST" id="form_update">
         @csrf
-        @method('put')       
+        @method('put')
+        <div class="d-none">
+            <input type="hidden" name="bank_id" value="{{ request('uuid') }}" />
+        </div>
         <div class="mb-3">
             <x-select
             name="section_name_id"  
             label="Name"  
             id="name_update"
             :options="$names" 
-            />  
-        </div>
-        <div class="mb-3">
-            <x-select
-            name="bank_id"  
-            label="Bank Question"  
-            id="bankQuestion_update"
-            :options="$banks" 
             />  
         </div>
         <div class="mb-3">
@@ -109,18 +99,19 @@
 
 @push('scripts')
 <script>
-    $('#datatables').DataTable({
-        processing: true,
-        serverSide: false,
-        scrollX: true,
-        ajax: '{{ route('admin.section.get') }}',
-        columns: [
-            { data: 'no', name: 'no' },
-            { data: 'section_name.name', name: 'section_name.name' },
-            { data: 'section_name.type', name: 'section_name.type' },
-            { data: 'action', name: 'action' },
-        ],
-    });
+   $('#datatables').DataTable({
+    processing: true,
+    serverSide: false,
+    scrollX: true,
+    ajax: '{{ route('admin.section.get') }}?uuid={{ request('uuid') }}',
+    columns: [
+        { data: 'no', name: 'no' },
+        { data: 'section_name.name', name: 'section_name.name' },
+        { data: 'section_name.type', name: 'section_name.type' },
+        { data: 'action', name: 'action' },
+    ],
+});
+
 
     $('#name, #name_update').on('change', function() {
         const id = $(this).val();

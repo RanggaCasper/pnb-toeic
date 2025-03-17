@@ -45,6 +45,7 @@ class QuestionBankController extends Controller implements HasMiddleware
             })
             ->addColumn('action', function ($row) {  
                 return '
+                <a href="'.route('admin.section.index', ['uuid' => $row->id]).'" class="btn btn-info btn-sm">Section</a>
                 <button type="button" class="btn btn-primary btn-sm edit-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>  
                 <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'. $row->id .'">Delete</button>
                 ';  
