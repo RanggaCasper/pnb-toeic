@@ -8,15 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class question extends Model
 {
-    
-    use HasFactory;
+    protected $table = 'questions';
 
-    protected $fillable = [
-        'id_section', 'questions', 'image', 'a', 'b', 'c', 'd', 'answer'
-    ];
+    protected $guarded = ['id'];
     
     public function section()
     {
-        return $this->belongsTo(Section::class, 'id_section');
+        return $this->belongsTo(Section::class, 'section_id');
     }
 }

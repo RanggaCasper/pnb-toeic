@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<x-breadcrumb title="Section" li_1="Menu" />
+<x-breadcrumb title="Section" li_1="Question Bank" li_1_href="{{ route('admin.bank.index') }}" />
+<a class="btn btn-sm btn-primary mb-3" href="{{ route('admin.bank.index') }}"><i class="ri ri-arrow-left-line"></i> Back</a>
 <x-card title="Manage Question Section">
     <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>

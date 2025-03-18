@@ -23,6 +23,12 @@ class Section extends Model
     }
     public function questions()
     {
-        return $this->hasMany(Question::class, 'id_section');
+        return $this->hasMany(Question::class, 'section_id');
+    }
+
+    protected static function booted()
+    {
+        static::created(fn($section) => QuestionBank::where('id', $section->bank_id)->update([]));
+        static::updated(fn($section) => QuestionBank::where('id', $section->bank_id)->update([]));
     }
 }

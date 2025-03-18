@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Section;
 
-use App\Models\QuestionBank;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Models\QuestionBank;
 use Illuminate\Http\Request;
 use App\Models\Section\Section;
 use Illuminate\Validation\Rule;
@@ -25,21 +26,29 @@ class SectionController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $bank = QuestionBank::find($request->uuid);
+
+        if (!$bank) {
+            return response()->redirectTo(route('admin.bank.index'));
+        }
+
         $names = SectionName::all();
-        $banks = QuestionBank::all();
 
         return view('admin.section.section.index',[
             'names' => $names->pluck('name', 'id')->toArray(),
-            'banks' => $banks->pluck('name', 'id')->toArray()
         ]);
     }
 
     public function get(Request $request): JsonResponse
     {
         try {
-            $data = Section::with('sectionName')->where('bank_id', $request->uuid)->get();
+            $data = Section::with('sectionName')
+                ->where('bank_id', $request->uuid)
+                ->orderBy('section_name_id')
+                ->get();
+
             return DataTables::of($data)
             ->addColumn('no', function ($row) {
                 static $counter = 0;
@@ -47,7 +56,8 @@ class SectionController extends Controller implements HasMiddleware
             })
             ->addColumn('action', function ($row) {
                 return '
-                <button type="button" class="btn btn-info btn-sm preview-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#previewModal">Preview</button>
+                <a href="'.route('admin.question.index', ['id' => $row->id]).'" class="btn btn-info btn-sm">Question</a>
+                <button type="button" class="btn btn-secondary btn-sm preview-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#previewModal">Preview</button>
                 <button type="button" class="btn btn-primary btn-sm edit-btn" data-id="'. $row->id .'" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
                 <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="'. $row->id .'">Delete</button>
                 ';
@@ -123,6 +133,9 @@ class SectionController extends Controller implements HasMiddleware
                 'section_name_id' => $request->section_name_id
             ]);
 
+            // Update question bank
+            QuestionBank::where('id', $request->bank_id)->update([]);
+
             return ResponseFormatter::created();
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
@@ -186,6 +199,9 @@ class SectionController extends Controller implements HasMiddleware
                 'bank_id' => $request->bank_id,
                 'section_name_id' => $request->section_name_id,
             ]);
+  
+            // Update question bank
+            QuestionBank::where('id', $request->bank_id)->update([]);
 
             return ResponseFormatter::success('Data successfully updated.');
         } catch (\Exception $e) {

@@ -43,30 +43,15 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <x-menu-title title="Menu" />
                 @if (auth()->user()->role->name == "admin")
-<<<<<<< Updated upstream
                     <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('admin.dashboard') }}" active="{{ request()->routeIs('admin.dashboard') }}" />
                     <x-navlink icon="ri-user-line" title="Manage User" href="{{ route('admin.user.index') }}" active="{{ request()->routeIs('admin.user.index') }}" />
-                    <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
                     <x-navlink icon="ri-calendar-line" title="Manage Session" href="{{ route('admin.token.index') }}" active="{{ request()->routeIs('admin.token.index') }}" />
+                    <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
                 @elseif (auth()->user()->role->name == "super")
                     <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('super.dashboard') }}" active="{{ request()->routeIs('super.dashboard') }}" />
                     <x-navlink icon="ri-user-line" title="Manage User" href="{{ route('super.admin.index') }}" active="{{ request()->routeIs('super.admin.index') }}" />
-                    <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
                     <x-navlink icon="ri-calendar-line" title="Manage Session" href="{{ route('admin.token.index') }}" active="{{ request()->routeIs('admin.token.index') }}" />
-=======
-                <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('admin.dashboard') }}" active="{{ request()->routeIs('admin.dashboard') }}" />
-                <x-navlink icon="ri-user-line" title="Manage User" href="{{ route('admin.user.index') }}" active="{{ request()->routeIs('admin.user.index') }}" />
-                <x-navlink icon="ri-global-line" title="Manage Bank" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
-                <x-navlink icon="ri-calendar-line" title="Manage Session" href="{{ route('admin.token.index') }}" active="{{ request()->routeIs('admin.token.index') }}" />
-                <x-navlink icon="ri-calendar-line" title="Manage Section" href="{{ route('admin.section.index') }}" active="{{ request()->routeIs('admin.section.index') }}" />
-                <x-navlink icon="ri-calendar-line" title="Manage Question" href="{{ route('admin.question.index') }}" active="{{ request()->routeIs('admin.question.index') }}" />
-                @elseif (auth()->user()->role->name == "super")
-                <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('super.dashboard') }}" active="{{ request()->routeIs('super.dashboard') }}" />
-                <x-navlink icon="ri-user-line" title="Manage User" href="{{ route('super.admin.index') }}" active="{{ request()->routeIs('super.admin.index') }}" />
-                <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
-                <x-navlink icon="ri-calendar-line" title="Manage Session" href="{{ route('admin.token.index') }}" active="{{ request()->routeIs('admin.token.index') }}" />
-                <x-navlink icon="ri-calendar-line" title="Manage Section" href="{{ route('admin.section.index') }}" active="{{ request()->routeIs('admin.section.index') }}" />
->>>>>>> Stashed changes
+                    <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
                 @elseif (auth()->user()->role->name == "user")
                 <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('user.dashboard') }}" active="{{ request()->routeIs('user.dashboard') }}" />
                 @endif

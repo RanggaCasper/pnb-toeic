@@ -92,6 +92,7 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
         });
     });
 
+    // Question
     Route::prefix('question')->as('question.')->group(function () {
         Route::controller(\App\Http\Controllers\Admin\Question\QuestionController::class)->group(function () {
             Route::get('/', 'index')->name('index');
@@ -100,6 +101,8 @@ Route::prefix('admin')->as('admin.')->middleware('auth', 'checkRole:admin|super'
             Route::get('/get/{id}', 'getById')->name('getById');
             Route::put('/update/{id}', 'update')->name('update');
             Route::delete('/destroy/{id}', 'destroy')->name('destroy');
+            Route::get('/preview/{id}', 'preview')->name('preview');
+            Route::post('/preview/{id}', 'checkAnswer')->name('check.store');
         });
     });
 });

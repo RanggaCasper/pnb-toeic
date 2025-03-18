@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin\QuestionBank;
 
+use Carbon\Carbon;
 use App\Models\QuestionBank;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use App\Helpers\ResponseFormatter;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
+use App\Helpers\ResponseFormatter;
+use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
 class QuestionBankController extends Controller implements HasMiddleware
 {
@@ -42,6 +43,12 @@ class QuestionBankController extends Controller implements HasMiddleware
             ->addColumn('status', function ($row) {
                 $status = $row->is_active ? " bg-success" : "bg-danger";
                 return '<span class="badge rounded-pill '.$status.'">'.( $row->is_active ? 'Active' : 'Nonactive').'</span>';  
+            })
+            ->addColumn('created_at', function ($row) {
+                return Carbon::parse($row->created_at)->format('d F Y H:i:s');
+            })
+            ->addColumn('updated_at', function ($row) {
+                return Carbon::parse($row->updated_at)->format('d F Y H:i:s');
             })
             ->addColumn('action', function ($row) {  
                 return '

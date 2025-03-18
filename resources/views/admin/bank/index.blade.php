@@ -13,6 +13,8 @@
                 <th>Name</th>
                 <th>Type</th>
                 <th>Status</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -83,6 +85,8 @@
             { data: 'name', name: 'name' },
             { data: 'type', name: 'type' },
             { data: 'status', name: 'status' },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'updated_at', name: 'updated_at' },
             { data: 'action', name: 'action' },
             ],
     });

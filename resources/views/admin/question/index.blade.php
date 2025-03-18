@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<x-breadcrumb title="Question" li_1="Menu" />
+<x-breadcrumb title="Question" li_1="Section" li_1_href="{{ route('admin.section.index', ['uuid' => $section->bank_id]) }}" />
+<a class="btn btn-sm btn-primary mb-3" href="{{ route('admin.section.index', ['uuid' => $section->bank_id]) }}"><i class="ri ri-arrow-left-line"></i> Back</a>
 <x-card title="Manage Question">
     <div class="d-flex gap-2">
         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
@@ -20,8 +21,9 @@
 <x-modal id="createModal" centered="true" title="Create Question" size="lg">
     <form method="POST" enctype="multipart/form-data">
         @csrf
-        <!-- <input type="hidden" name="section_id" id="section_id"> -->
-
+        <div class="d-none">
+            <input type="hidden" name="section_id" value="{{ request('id') }}" id="section_id">
+        </div>
         <div class="mb-3">
             <x-input label="Question" type="text" name="questions" id="questions" required />
         </div>
@@ -30,8 +32,8 @@
             <x-filepond
                 class="filepond-image"
                 label="Upload Image"
-                name="question_image"
-                id="question_image"
+                name="image"
+                id="image"
                 :isRequired="false" />
         </div>
 
@@ -56,8 +58,6 @@
                 :options="['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D']"
                 required />
         </div>
-
-
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-danger">Reset</button>
     </form>
@@ -67,22 +67,20 @@
     <form method="POST" id="form_update">
         @csrf
         @method('put')
-
-        <!-- <input type="hidden" name="section_id" id="section_id"> -->
-
+        <div class="d-none">
+            <input type="hidden" name="section_id" value="{{ request('id') }}" id="section_id">
+        </div>
         <div class="mb-3">
             <x-input label="Question" type="text" name="questions" id="question_update" required />
         </div>
-
         <div class="mb-3">
             <x-filepond
                 class="filepond-image"
                 label="Upload Image"
-                name="question_image"
-                id="question_image"
+                name="image"
+                id="image"
                 :isRequired="false" />
         </div>
-
         <div class="mb-3">
             <x-input name="a" label="Option A" id="option_a_update" required />
         </div>
@@ -95,7 +93,6 @@
         <div class="mb-3">
             <x-input name="d" label="Option D" id="option_d_update" required />
         </div>
-
         <div class="mb-3">
             <x-select
                 name="answer"
@@ -104,7 +101,6 @@
                 :options="['A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D']"
                 required />
         </div>
-
         <button type="submit" class="btn btn-primary">Submit</button>
         <button type="reset" class="btn btn-danger">Reset</button>
     </form>
@@ -128,10 +124,9 @@
                     name: 'id'
                 },
                 {
-                    data: 'question_text',
-                    name: 'question_text'
+                    data: 'questions',
+                    name: 'questions'
                 },
-
                 {
                     data: 'action',
                     name: 'action',
@@ -142,21 +137,10 @@
         });
     });
 
-    $('#id_section, #id_section_update').on('change', function() {
-        const id = $(this).val();
-        $.ajax({
-            url: '{{ route("admin.section.getById", ["id" => ":id"]) }}'.replace(":id", id),
-            type: 'GET',
-            success: function(response) {
-                console.log(response);
-            }
-        });
-    });
-
     $('#datatables').on('click', '.preview-btn', function() {
         var id = $(this).data('id');
         $.ajax({
-            url: '{{ route("admin.section.preview", ["id" => ":id"]) }}'.replace(':id', id),
+            url: '{{ route("admin.question.preview", ["id" => ":id"]) }}'.replace(':id', id),
             type: 'GET',
             beforeSend: function() {
                 $('#previewModal .modal-body').html('<p class="text-muted">Fetching data...</p>');
@@ -205,7 +189,7 @@
     $('#option_c_update').val(response.data.c);
     $('#option_d_update').val(response.data.d);
     $('#answer_update').val(response.data.answer).trigger('change');
-    $('#id_section_update').val(response.data.id_section).trigger('change');
+    $('#section_id_update').val(response.data.section_id).trigger('change');
 </x-script.update-swal>
 <x-script.delete-swal route="admin.question.destroy" />
 @endpush

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\admin\Question;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Str;
 use App\Models\Question;
-use Illuminate\Validation\Rule;
-use RahulHaque\Filepond\Facades\Filepond;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
+use App\Models\QuestionBank;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
-use App\Helpers\ResponseFormatter;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Section\Section;
+use Illuminate\Validation\Rule;
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\JsonResponse;
+use App\Helpers\ResponseFormatter;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use RahulHaque\Filepond\Facades\Filepond;
 
 class QuestionController extends Controller
 {
@@ -25,12 +26,12 @@ class QuestionController extends Controller
             (new \Illuminate\Routing\Controllers\Middleware('checkAjax'))->except(['index']),
         ];
     }
-    public function index()
+
+    public function index(Request $request)
     {
-
-        $sections = Section::all();
-
-        return view('admin.question.index', compact('sections'));
+        $section = Section::find($request->id);
+        
+        return view('admin.question.index', compact('section'));
     }
 
     public function get(): JsonResponse
@@ -38,32 +39,34 @@ class QuestionController extends Controller
         try {
             $data = Question::with('section')->get();
             return DataTables::of($data)
-                ->addColumn('section_name', function ($row) {
-                    return $row->section ? $row->section->section_name_id : '-';
-                })
-                ->addColumn('question_text', function ($row) {
-                    return $row->questions;
-                })
-                ->addColumn('options', function ($row) {
-                    return "A: $row->a <br> B: $row->b <br> C: $row->c <br> D: $row->d";
-                })
-                ->addColumn('answer', function ($row) {
-                    return "Jawaban: <strong>$row->answer</strong>";
+                ->addColumn('no', function ($row) {
+                    static $counter = 0;
+                    return ++$counter;
                 })
                 ->addColumn('action', function ($row) {
                     return '
-                <button type="button" class="btn btn-info btn-sm preview-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#previewModal">Preview</button>
-                <button type="button" class="btn btn-primary btn-sm edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
-                <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="' . $row->id . '">Delete</button>
-                ';
+                        <button type="button" class="btn btn-secondary btn-sm preview-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#previewModal">Preview</button>
+                        <button type="button" class="btn btn-primary btn-sm edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#updateModal">Update</button>
+                        <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="' . $row->id . '">Delete</button>
+                    ';
                 })
                 ->rawColumns(['answer', 'action'])
                 ->make(true);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }
+    }   
 
+    public function preview($id)
+    {
+        try {
+            return ResponseFormatter::success('Data successfully retrieved.', view('admin.question.preview',[
+                'data' => Question::findOrFail($id)
+            ])->render());
+        } catch (\Exception $e) {
+            return ResponseFormatter::handleError($e);
+        }
+    }
 
     public function store(Request $request): JsonResponse
     {
@@ -73,7 +76,7 @@ class QuestionController extends Controller
                 'image',
                 'max:2000' // Maksimal 2MB
             ]),
-            'id_section' => 'required|exists:sections,id',
+            'section_id' => 'required|exists:sections,id',
             'questions' => 'required|string',
             'a' => 'required|string',
             'b' => 'required|string',
@@ -84,22 +87,24 @@ class QuestionController extends Controller
 
         try {
             // Upload gambar jika ada
-            $imagePath = null;
             if ($request->has('image')) {
                 $path = Filepond::field($request->image)->moveTo('questions/images/' . Str::uuid());
-                $imagePath = $path['location'];
+                $request->merge(['image' => $path['location']]);
             }
 
             Question::create([
-                'id_section' => $request->id_section,
+                'section_id' => $request->section_id,
                 'questions' => $request->questions,
-                'image' => $imagePath,
+                'image' => $request->image,
                 'a' => $request->a,
                 'b' => $request->b,
                 'c' => $request->c,
                 'd' => $request->d,
                 'answer' => $request->answer,
             ]);
+
+            // Update question bank
+            Section::findOrFail($request->section_id)->questionBank()->update([]);
 
             return ResponseFormatter::created();
         } catch (\Exception $e) {
@@ -129,7 +134,7 @@ class QuestionController extends Controller
                 'mimes:mp3',
                 'max:5000'
             ]),
-            'id_section' => 'required|exists:sections,id',
+            'section_id' => 'required|exists:sections,id',
             'questions' => 'required|string',
             'a' => 'required|string',
             'b' => 'required|string',
@@ -151,13 +156,11 @@ class QuestionController extends Controller
             } else {
                 $request->merge(['image' => $question->image]);
             }
-
-            
            
             $question->update([
                 'image' => $request->image,
                 'audio' => $request->audio,
-                'id_section' => $request->id_section,
+                'section_id' => $request->section_id,
                 'questions' => $request->questions,
                 'a' => $request->a,
                 'b' => $request->b,
@@ -166,11 +169,15 @@ class QuestionController extends Controller
                 'answer' => $request->answer,
             ]);
 
+            // Update question bank
+            Section::findOrFail($request->section_id)->questionBank()->update([]);
+
             return ResponseFormatter::success('Question updated successfully.');
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
         }
     }
+
     public function destroy($id): JsonResponse
     {
         try {
@@ -182,6 +189,26 @@ class QuestionController extends Controller
 
             $data->delete();
             return ResponseFormatter::success('Data successfully deleted.');
+        } catch (\Exception $e) {
+            return ResponseFormatter::handleError($e);
+        }
+    }
+
+    public function checkAnswer(Request $request, $id): JsonResponse
+    {
+        try {
+            $request->validate([
+                'answer' => 'required|in:A,B,C,D',
+            ]);
+
+            $question = Question::findOrFail($id);
+
+            if ($request->answer == $question->answer) {
+                return ResponseFormatter::success('Correct answer!');
+            } else {
+                return ResponseFormatter::error('Incorrect answer, try again!');
+            }
+            return ResponseFormatter::success('Data successfully retrieved.');
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
         }

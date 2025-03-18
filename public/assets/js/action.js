@@ -31,7 +31,9 @@ $(document).on('submit', 'form', function (e) {
 
                 const modal = $(e.target).closest('.modal');
                 if (modal.length > 0) {
-                    modal.modal('hide');
+                    if ($(e.target).data('reset') !== false) {
+                        modal.modal('hide');
+                    }
                 }
             }
 
