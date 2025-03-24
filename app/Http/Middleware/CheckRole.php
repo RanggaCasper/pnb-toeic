@@ -24,6 +24,6 @@ class CheckRole
             }
         }
 
-        return dd( $allowedRoles );
+        return abort(Response::HTTP_UNAUTHORIZED);
     }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Mail\TokenEmail;
 use App\Models\EmailToken;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -31,16 +32,16 @@ class ForgotPasswordController extends Controller
             $data = EmailToken::where('email', $request->email)->first();
 
             if (!$data) {
-                return ResponseFormatter::error('User not found.', 404);
+                return ResponseFormatter::error('User not found.', Response::HTTP_NOT_FOUND);
             }
 
             if ($data->token !== $request->token) {
-                return ResponseFormatter::error('Invalid token.', 422);
+                return ResponseFormatter::error('Invalid token.', Response::HTTP_UNAUTHORIZED);
             }
 
             if ($data->expired_at < Carbon::now()) {
                 $data->delete();
-                return ResponseFormatter::error('Token expired.', 422);
+                return ResponseFormatter::error('Token expired.', Response::HTTP_UNAUTHORIZED);
             }
 
             $user = User::where('email', $request->email)->first();

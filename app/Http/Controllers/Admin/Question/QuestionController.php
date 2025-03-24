@@ -12,10 +12,11 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Storage;
 use RahulHaque\Filepond\Facades\Filepond;
 
-class QuestionController extends Controller
+class QuestionController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.

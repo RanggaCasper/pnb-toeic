@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\Response;
 use App\Helpers\ResponseFormatter;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -41,7 +42,7 @@ class LoginController extends Controller
                 
                 return ResponseFormatter::redirected('Login successful!', route("{$role}.dashboard"));
             }
-            return ResponseFormatter::error('Credentials not match our records.', code: 422);
+            return ResponseFormatter::error('Credentials not match our records.', code: Response::HTTP_UNAUTHORIZED);
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);  
         }

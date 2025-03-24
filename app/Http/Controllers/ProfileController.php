@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\ProgramStudy;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
 use Illuminate\Support\Facades\Auth;
@@ -49,27 +50,25 @@ class ProfileController extends Controller
             'old_password' => 'required',
             'password' => 'required|same:confirm_password',
         ]);
+        
         try {
             $user = User::find(Auth::user()->id);
 
             if (!Hash::check($request->old_password, $user->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Password lama salah.'
-                ], 422);
+                    'message' => 'Old password is incorrect.'
+                ], Response::HTTP_UNAUTHORIZED);
             }
     
             $user->update(['password' => Hash::make($request->password)]);
     
             return response()->json([
                 'status' => true,
-                'message' => 'Password berhasil diperbarui.'
+                'message' => 'Password successfully updated.'
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Terjadi kesalahan saat memperbarui password. Silakan coba lagi.'
-            ], 500);    
+            return ResponseFormatter::handleError($e);    
         }
     }
 }

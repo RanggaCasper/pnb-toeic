@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 
 class ResponseFormatter
@@ -12,10 +13,10 @@ class ResponseFormatter
             'status' => true,
             'message' => $message,
             'data' => $data
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
-    public static function success(string $message, mixed $data = null, int $code = 200): JsonResponse
+    public static function success(string $message, mixed $data = null, int $code = Response::HTTP_OK): JsonResponse
     {
         return response()->json([
             'status' => true,
@@ -24,7 +25,7 @@ class ResponseFormatter
         ], $code);
     }
 
-    public static function error(string $message, mixed $errors = null, int $code = 400): JsonResponse
+    public static function error(string $message, mixed $errors = null, int $code = Response::HTTP_BAD_REQUEST): JsonResponse
     {
         return response()->json([
             'status' => false,
@@ -33,7 +34,7 @@ class ResponseFormatter
         ], $code);
     }
 
-    public static function redirected(string $message, string $redirect_url, int $code = 200): JsonResponse
+    public static function redirected(string $message, string $redirect_url, int $code = Response::HTTP_OK): JsonResponse
     {
         return response()->json([
             'status' => true,
@@ -45,6 +46,6 @@ class ResponseFormatter
     public static function handleError(\Exception $e, string $message = 'Internal Server Error, Please try again later.'): JsonResponse  
     {  
         $errors = config('app.debug') ? $e->getMessage() : null;
-        return self::error($message, $errors, 500);
+        return self::error($message, $errors, Response::HTTP_INTERNAL_SERVER_ERROR);
     }  
 }
