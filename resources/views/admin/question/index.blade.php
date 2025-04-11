@@ -25,7 +25,7 @@
             <input type="hidden" name="section_id" value="{{ request('id') }}" id="section_id">
         </div>
         <div class="mb-3">
-            <x-input label="Question" type="text" name="questions" id="questions" required />
+            <x-input label="Question" type="text" name="questions" id="questions" />
         </div>
 
         <div class="mb-3">
@@ -38,16 +38,16 @@
         </div>
 
         <div class="mb-3">
-            <x-input name="a" label="Option A" id="option_a" required />
+            <x-input name="a" label="Option A" id="option_a"   />
         </div>
         <div class="mb-3">
-            <x-input name="b" label="Option B" id="option_b" required />
+            <x-input name="b" label="Option B" id="option_b" />
         </div>
         <div class="mb-3">
-            <x-input name="c" label="Option C" id="option_c" required />
+            <x-input name="c" label="Option C" id="option_c"  />
         </div>
         <div class="mb-3">
-            <x-input name="d" label="Option D" id="option_d" required />
+            <x-input name="d" label="Option D" id="option_d"  />
         </div>
 
         <div class="mb-3">
