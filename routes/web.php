@@ -121,6 +121,13 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
             Route::get('/get/{id}', 'getByToken')->name('getByToken');
         });
     });
+
+    // History
+    Route::prefix('history')->as('history.')->group(function () {
+        Route::controller(\App\Http\Controllers\User\History\HistoryController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+    });
 });
 
 Route::prefix('super')->as('super.')->middleware('auth', 'checkRole:super')->group(function () {

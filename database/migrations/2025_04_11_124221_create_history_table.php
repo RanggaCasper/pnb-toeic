@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('history', function (Blueprint $table) {
             $table->id();
             $table->foreignId('users_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('question_id')->constrained('questions')->onDelete('cascade');
+            $table->foreignId('sections_id')->constrained('sections')->onDelete('cascade');
+            $table->foreignId('questions_id')->constrained('questions')->onDelete('cascade');
             $table->uuid('question_banks_id');
             $table->foreign('question_banks_id')->references('id')->on('question_banks')->onDelete('cascade');
             $table->string('user_answer');
