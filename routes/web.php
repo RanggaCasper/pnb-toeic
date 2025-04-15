@@ -114,6 +114,21 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
     Route::put('/update/{id}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::post('/store', [\App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 
+    // Practice
+    Route::prefix('practice')->as('practice.')->group(function () {
+        Route::controller(\App\Http\Controllers\User\Practice\PracticeController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+        });
+    });
+
+    // About
+    Route::prefix('about')->as('about.')->group(function () {
+        Route::controller(\App\Http\Controllers\User\About\AboutController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/more', 'more')->name('more');
+        });
+    });
+
     // Token
     Route::prefix('token')->as('token.')->group(function () {
         Route::controller(\App\Http\Controllers\User\Token\TokenController::class)->group(function () {

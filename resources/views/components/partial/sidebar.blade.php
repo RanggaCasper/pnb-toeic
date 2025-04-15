@@ -54,6 +54,8 @@
                     <x-navlink icon="ri-global-line" title="Manage Question" href="{{ route('admin.bank.index') }}" active="{{ request()->routeIs('admin.bank.index') }}" />
                 @elseif (auth()->user()->role->name == "user")
                 <x-navlink icon="ri-dashboard-line" title="Dashboard" href="{{ route('user.dashboard') }}" active="{{ request()->routeIs('user.dashboard') }}" />
+                <x-navlink icon="ri-file-edit-line" title="Practice" href="{{ route('user.practice.index') }}" active="{{ request()->routeIs('user.practice.index') }}" />
+                <x-navlink icon="ri-file-info-line" title="About Test" href="{{ route('user.about.index') }}" active="{{ request()->routeIs('user.about.index') }}" />
                 <x-navlink icon="ri-history-line" title="History" href="{{ route('user.history.index') }}" active="{{ request()->routeIs('user.history.index') }}" />
                 @endif
             </ul>
