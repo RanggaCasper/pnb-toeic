@@ -29,13 +29,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- custom Css-->
     <link href="{{asset('assets/css/custom.min.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .accordion-button:not(.collapsed) {
+            background-color: #AACF7D; /* Hijau */
+            color: white;
+        }
+    </style>
+
 </head>
 
 <body>
 
     <!-- Begin page -->
     <div id="layout-wrapper">
-        <header id="page-topbar" class="bg-white shadow-sm">
+        <header id="page-topbar" class="bg-white shadow-sm" >
             <div class="layout-width container-fluid py-2">
                 <div class="row align-items-center">
                     <div class="col-12 col-md-6 text-center text-md-start mb-3 mb-md-0">
@@ -61,23 +68,20 @@
                         <div class="collapse navbar-collapse fs-5 justify-content-md-between justify-content-center text-center" id="navbarNav">
                             <ul class="navbar-nav gap-2">
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#">Home</a>
+                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#home">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#">FAQ</a>
+                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#about">About</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#">About</a>
+                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#faq">FAQ</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#">Test Info</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#">Contact Us</a>
+                                    <a class="nav-link text-dark fw-semibold border-bottom border-2 border-warning d-inline-block" href="#contact">Contact Us</a>
                                 </li>
                             </ul>
                             <div class="mt-4 mt-md-0">
-                                <a class="btn btn-outline-primary fw-bold px-4 py-2" href="#">Login</a>
+                                <a class="btn btn-outline-primary fw-bold px-4 py-2" href="{{route('login')}}">Login</a>
                             </div>
                         </div>
                     </div>
@@ -96,14 +100,14 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        <br><br><br><br><br>
+        <br id="home"><br><br><br><br>
 
         <!-- first content -->
-        <div class="w-100 py-5" style="background-color: #AACF7D;">
+        <div class="w-100 position-relative" style="background-color: #AACF7D; overflow: hidden;" >
             <div class="container-fluid">
-                <div class="row align-items-center flex-column-reverse flex-md-row text-center text-md-start">
+                <div class="row align-items-center flex-column-reverse flex-md-row text-center text-md-start position-relative">
                     <!-- TEXT -->
-                    <div class="col-md-6 px-4">
+                    <div class="col-md-6 px-4 z-1">
                         <h1 class="fw-bold text-dark">
                             Empower Your Future with TOEIC!
                         </h1>
@@ -120,16 +124,18 @@
                     </div>
 
                     <!-- IMAGE -->
-                    <div class="col-md-6 text-center">
-                        <!-- Mobile image -->
-                        <img src="https://expo2.lab-trpl.id/images/model1p.png"
-                        class="img-fluid d-block d-md-none mx-auto mt-5 mb-4"
-                        alt="TOEIC Mobile" style="max-width: 300px;">
-
-                        <!-- Desktop image -->
+                    <div class="col-md-6 d-none d-md-block position-relative">
                         <img src="https://expo2.lab-trpl.id/images/model1.png"
-                        class="img-fluid d-none d-md-block ms-md-auto"
-                        alt="TOEIC Desktop" style="max-width: 90%;">
+                        class=""
+                        alt="TOEIC Desktop"
+                        style="width: 120%; max-width: none; ">
+                    </div>
+
+                    <!-- Mobile image -->
+                    <div class="col-12 d-block d-md-none text-center mt-4">
+                        <img src="https://expo2.lab-trpl.id/images/model1p.png"
+                        class="img-fluid mx-auto"
+                        alt="TOEIC Mobile" style="max-width: 300px;">
                     </div>
                 </div>
             </div>
@@ -145,14 +151,14 @@
                     <p>Recognized and valued by organizations, educational institutions, and professionals around the world.</p>
                 </div>
                 <div class="col-12 col-lg-4 my-3 my-lg-0">
-                    <i class="fw-semibold ri-shake-hands-line" style="font-size: 45px;" ></i>
-                    <h4 class="text-dark">Cheapest English Test</h4>
-                    <p>TOEIC ensures that more people can access a reputable English proficiency test without breaking the bank.</p>
+                    <i class="fw-semibold ri-shake-hands-line" style="font-size: 45px;"></i>
+                    <h4 class="text-dark">Trusted Partnership</h4>
+                    <p>TOEIC supports individuals in achieving their personal and professional goals through a reliable and standardized English assessment.</p>
                 </div>
                 <div class="col-12 col-lg-4">
                     <i class="fw-semibold ri-graduation-cap-line" style="font-size: 45px;" ></i>
                     <h4 class="text-dark">Academic Excellence</h4>
-                    <p>Access the best educational resources, become an Awardee and succeed in global academic environments.</p>
+                    <p  id="about">Access the best educational resources, become an Awardee and succeed in global academic environments.</p>
 
                 </div>
             </div>
@@ -160,28 +166,26 @@
         <!-- icon section -->
         
         <!-- about test -->
-        <div class="w-100 py-5" style="background-color: #AACF7D;">
+        <div class="w-100 py-5" style="background-color: #AACF7D;" >
             <div class="container-fluid">
                 <h2 class="text-center text-dark fw-semibold my-3">About Test</h2>
             </div>
             <div class="row d-flex justify-content-center">
-                <div class="col-12 col-lg-3 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
+                <div class="col-12 col-lg-5 d-flex justify-content-center">
+                    <div class="card" style="width: 30rem;">
                         <img src="https://expo2.lab-trpl.id/images/listening.jpg" class="card-img-top" alt="listening img">
                         <div class="card-body">
                             <h5 class="card-title">Listening Test</h5>
                             <p class="card-text">The Listening Test is a component of English language proficiency assessment that evaluates your ability to understand spoken English in various contexts.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-3 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
+                <div class="col-12 col-lg-5 d-flex justify-content-center">
+                    <div class="card" style="width: 30rem;">
                         <img src="https://expo2.lab-trpl.id/images/reading.jpg" class="card-img-top" alt="listening img">
                         <div class="card-body">
                             <h5 class="card-title">Reading Test</h5>
-                            <p class="card-text">The Listening Test is a component of English language proficiency assessment that evaluates your ability to understand spoken English in various contexts.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <p class="card-text" id="faq">The Listening Test is a component of English language proficiency assessment that evaluates your ability to understand spoken English in various contexts.</p>
                         </div>
                     </div>
                 </div>
@@ -190,7 +194,7 @@
         <!-- about test -->
 
         <!-- faq -->
-        <div class="container my-5 pb-5">
+        <div class="container my-5 pb-5" >
             <h2 class="my-5 text-center text-dark">Frequently Asked Questions</h2>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
@@ -234,7 +238,7 @@
         <!-- faq -->
 
         <!-- footer -->
-        <footer class="custom-footer bg-dark py-5 position-relative">
+        <footer class="custom-footer bg-dark py-5 position-relative" >
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 mt-4">
@@ -270,10 +274,10 @@
                                 <h5 class="text-white mb-0">Quick Link</h5>
                                 <div class="text-muted mt-3">
                                     <ul class="list-unstyled ff-secondary footer-list">
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">About</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">FAQ</a></li>
+                                        <li><a href="#home">Home</a></li>
+                                        <li><a href="#about">About</a></li>
+                                        <li><a href="#faq">FAQ</a></li>
+                                        <li><a href="#contact">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -326,7 +330,7 @@
                     </div>
                 </div>
 
-                <div class="row text-center text-sm-start align-items-center mt-5">
+                <div class="row text-center text-sm-start align-items-center mt-5" id="contact">
                     <div class="col-sm-6">
                         <div>
                             <p class="copy-rights mb-0">

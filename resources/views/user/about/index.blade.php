@@ -31,7 +31,7 @@
                     <div class="ratio ratio-16x9">
                         <iframe src="https://www.youtube.com/embed/ku6XQTDfYh0" title="YouTube video" allowfullscreen></iframe>
                     </div>
-                    <div class="card-body bg-light">
+                    <div class="card-body">
                         <h5 class="card-title">Preparing for TOEIC® test</h5>
                         <p class="card-text text-muted">
                             Know what to expect on the day of the test and how to get ready effectively. 
@@ -48,7 +48,7 @@
                     <div class="ratio ratio-16x9">
                         <iframe src="https://www.youtube.com/embed/KbcUp8HFCE0" title="YouTube video" allowfullscreen></iframe>
                     </div>
-                    <div class="card-body bg-light">
+                    <div class="card-body">
                         <h5 class="card-title">Benefits of TOEIC® test</h5>
                         <p class="card-text text-muted">
                            Discover how the TOEIC® test can open doors to better job opportunities and career growth across the globe.
@@ -65,7 +65,7 @@
                     <div class="ratio ratio-16x9">
                         <iframe src="https://www.youtube.com/embed/ndCUaJLm4sY" title="YouTube video" allowfullscreen></iframe>
                     </div>
-                    <div class="card-body bg-light">
+                    <div class="card-body">
                         <h5 class="card-title">TOEIC® Tests Prove English Language Proficiency</h5>
                         <p class="card-text text-muted">
                            Show your English skills to employers with trusted TOEIC® scores.
@@ -86,25 +86,25 @@
             <ul class="list-unstyled mb-0">
                 <li class="mb-3">
                     <h6 class="mb-1">How the Test Works</h6>
-                    <a href="https://www.ets.org/pdfs/toeic/toeic-bridge-listening-reading-tests-examinee-handbook.pdf" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://www.ets.org/pdfs/toeic/toeic-bridge-listening-reading-tests-examinee-handbook.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
                         Read More
                     </a>
                 </li>
                 <li class="mb-3">
                     <h6 class="mb-1">How Scores Work</h6>
-                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-score-descriptors.pdf" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-score-descriptors.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
                         Read More
                     </a>
                 </li>
                 <li class="mb-3">
                     <h6 class="mb-1">Test Rules</h6>
-                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-score-descriptors.pdf" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-score-descriptors.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
                         Read More
                     </a>
                 </li>
                 <li>
                     <h6 class="mb-1">Official Test Guide</h6>
-                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-sample-test.pdf" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    <a href="https://www.ets.org/content/dam/ets-org/pdfs/toeic/toeic-listening-reading-sample-test.pdf" target="_blank" class="btn btn-sm btn-outline-primary">
                         Download PDF
                     </a>
                 </li>
