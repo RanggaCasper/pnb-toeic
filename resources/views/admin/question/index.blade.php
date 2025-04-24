@@ -118,7 +118,7 @@
             processing: true,
             serverSide: false,
             scrollX: true,
-            ajax: "{{ route('admin.question.get') }}",
+            ajax: "{{ route('admin.question.get', ['id' => request('id')]) }}",
             columns: [{
                     data: 'id',
                     name: 'id'

@@ -75,10 +75,11 @@ class TokenController extends Controller implements HasMiddleware
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            'bank_id' => 'required|exists:question_banks,id',
-        ]);
+            'start_at' => 'required|date|before_or_equal:end_at',
+            'end_at'   => 'required|date|after_or_equal:start_at',
+            'bank_id'  => 'required|exists:question_banks,id',
+        ]);        
+        
         try {
             Token::create([
                 'token' => Str::random(7),
@@ -96,11 +97,11 @@ class TokenController extends Controller implements HasMiddleware
     public function update(Request $request, $id): JsonResponse
     {
         $request->validate([
-            'start_at' => 'required|date',
-            'end_at' => 'required|date',
-            'bank_id' => 'required|exists:question_banks,id',
-        ]);
-
+            'start_at' => 'required|date|before_or_equal:end_at',
+            'end_at'   => 'required|date|after_or_equal:start_at',
+            'bank_id'  => 'required|exists:question_banks,id',
+        ]);        
+        
         try {
             $data = Token::findOrFail($id);
             $updateData = [

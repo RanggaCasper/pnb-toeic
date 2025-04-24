@@ -95,7 +95,6 @@ return [
     'validation_rules' => [
         'required',
         'file',
-        'max:5000',
     ],
 
     /*

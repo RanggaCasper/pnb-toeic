@@ -35,10 +35,10 @@ class QuestionController extends Controller implements HasMiddleware
         return view('admin.question.index', compact('section'));
     }
 
-    public function get(): JsonResponse
+    public function get(Request $request): JsonResponse
     {
         try {
-            $data = Question::with('section')->get();
+            $data = Question::with('section')->where('section_id', $request->id)->get();
             return DataTables::of($data)
                 ->addColumn('no', function ($row) {
                     static $counter = 0;

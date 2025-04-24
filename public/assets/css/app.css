@@ -426,6 +426,7 @@ File: Main Css File
   height: 60px;
   background-color: var(--vz-footer-bg);
 }
+
 @media (max-width: 991.98px) {
   .footer {
     left: 0;

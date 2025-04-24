@@ -2,10 +2,10 @@
 
 @section('content')
 <div class="auth-page-wrapper pt-5">
-   <x-card title="Reedem Your Token">
-    <form id="getToken">
-        @method('get')
-        <x-input label="Token" notification='<small class=" d-block text-muted">Enter your token below</small>' type="text" name="token" id="token" maxlength="7"/>
+    <x-card title="Reedem Your Token">
+        <form method="POST">
+            @csrf
+            <x-input label="Token" type="text" name="token" id="token" />
             <button type="submit" class="btn btn-primary mt-2 px-5">Submit</button>
         </form>
     </x-card>
@@ -37,26 +37,3 @@
     </x-card>
 </div>
 @endsection
-@push('scripts')
-<script>
-    $('#getToken').submit(function (e) {
-        e.preventDefault();
-        let submitUrl = '{{route("user.token.getByToken", ':id')}}'.replace(':id', $('#token').val());
-
-        $.ajax({
-            url: submitUrl,
-            type: 'GET',
-            success: function (response) {
-                console.log(response.status)
-            },
-            error: function (xhr, status, error) {
-                $('#btn').removeClass('disabled');
-                $('#btn-loading-spinner').addClass('d-none');
-
-                console.error("Error:", xhr.status, xhr.responseText);
-
-            }
-        });
-    });
-</script>
-@endpush

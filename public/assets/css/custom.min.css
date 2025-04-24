@@ -55,3 +55,14 @@
     border-color: var(--vz-primary);
     color: #fff
 }
+
+.footer-exam {
+    bottom: 0;
+    padding: 20px calc(1.5rem * 0.5);
+    position: absolute;
+    right: 0;
+    color: var(--vz-footer-color);
+    left: var(--vz-vertical-menu-width);
+    height: 60px;
+    background-color: var(--vz-footer-bg);
+  }

@@ -101,7 +101,6 @@ class SectionController extends Controller implements HasMiddleware
             'audio' => Rule::filepond([
                 'nullable',
                 'mimes:mp3',
-                'max:5000'
             ]),
             'bank_id' => 'required|exists:question_banks,id',
             'section_name_id' => 'required|exists:section_names,id',
@@ -153,7 +152,6 @@ class SectionController extends Controller implements HasMiddleware
             'audio' => Rule::filepond([
                 'nullable',
                 'mimes:mp3',
-                'max:5000'
             ]),
             'bank_id' => 'required|exists:question_banks,id',
             'section_name_id' => 'required|exists:section_names,id',

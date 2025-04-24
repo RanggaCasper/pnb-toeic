@@ -6,6 +6,8 @@ use App\Models\Token;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class TokenController extends Controller implements HasMiddleware
@@ -22,13 +24,18 @@ class TokenController extends Controller implements HasMiddleware
         return view('user.token.index');
     }
 
-    public function getByToken($token): JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $request->validate([
+            'token' => 'required'
+        ]);
+        
         try {
-            $data = Token::where('token',$token)->firstOrFail();
-            return ResponseFormatter::success('Data successfully retrieved.', $data);
+            $data = Token::where('token', $request->token)->firstOrFail();
+            session(['token_data' => $data]);
+            return ResponseFormatter::redirected('Token verifed successfully.', route('user.exam.index'));
         } catch (\Exception $e) {
-            return ResponseFormatter::handleError($e);
+            return ResponseFormatter::error($e);
         }
-    } 
+    }
 }

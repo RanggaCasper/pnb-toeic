@@ -118,7 +118,20 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
     Route::prefix('token')->as('token.')->group(function () {
         Route::controller(\App\Http\Controllers\User\Token\TokenController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::post('/', 'store')->name('store');
             Route::get('/get/{id}', 'getByToken')->name('getByToken');
+        });
+    });
+
+    Route::prefix('exam')->as('exam.')->group(function () {
+        Route::controller(\App\Http\Controllers\User\Exam\ExamController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/get', 'get')->name('get');
+            Route::get('/get/question', 'getQuestion')->name('getQuestion');
+            Route::post('/submit', 'submit')->name('submit');
+            Route::get('/reset', 'reset')->name('reset');
+            Route::post('/save-answer', 'saveAnswer')->name('saveAnswer');
+            Route::post('/save-all-answer', 'saveAllAnswers')->name('saveAllAnswers');
         });
     });
 });
