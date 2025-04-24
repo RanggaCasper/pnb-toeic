@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             ProgramStudySeeder::class,
             UserSeeder::class,
-            SectionNameSeeder::class
+            SectionNameSeeder::class,
+            ToeicScoreSeeder::class
         ]);
     }
 }

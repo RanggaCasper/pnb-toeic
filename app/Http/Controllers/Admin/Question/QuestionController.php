@@ -32,7 +32,7 @@ class QuestionController extends Controller implements HasMiddleware
     {
         $section = Section::find($request->id);
         
-        return view('admin.question.index', compact('section'));
+        return view("admin.question.index", compact('section'));
     }
 
     public function get(Request $request): JsonResponse
@@ -79,10 +79,10 @@ class QuestionController extends Controller implements HasMiddleware
             ]),
             'section_id' => 'required|exists:sections,id',
             'questions' => 'required|string',
-            'a' => 'required|string',
-            'b' => 'required|string',
-            'c' => 'required|string',
-            'd' => 'required|string',
+            'a' => 'nullable|string',
+            'b' => 'nullable|string', 
+            'c' => 'nullable|string',
+            'd' => 'nullable|string',
             'answer' => 'required|in:A,B,C,D',
         ]);
 
@@ -97,10 +97,10 @@ class QuestionController extends Controller implements HasMiddleware
                 'section_id' => $request->section_id,
                 'questions' => $request->questions,
                 'image' => $request->image,
-                'a' => $request->a,
-                'b' => $request->b,
-                'c' => $request->c,
-                'd' => $request->d,
+                'a' => $request->a ?? 'Option A',
+                'b' => $request->b ?? 'Option B',
+                'c' => $request->c ?? 'Option C', 
+                'd' => $request->d ?? 'Option D',
                 'answer' => $request->answer,
             ]);
 
