@@ -38,7 +38,15 @@ class QuestionController extends Controller implements HasMiddleware
     public function get(Request $request): JsonResponse
     {
         try {
+<<<<<<< Updated upstream
             $data = Question::with('section')->where('section_id', $request->id)->get();
+=======
+            $data = Question::with('section')
+                ->when($request->has('section_id'), function($query) use ($request) {
+                    return $query->where('section_id', $request->section_id);
+                })
+                ->get();
+>>>>>>> Stashed changes
             return DataTables::of($data)
                 ->addColumn('no', function ($row) {
                     static $counter = 0;
@@ -78,7 +86,7 @@ class QuestionController extends Controller implements HasMiddleware
                 'max:2000' // Maksimal 2MB
             ]),
             'section_id' => 'required|exists:sections,id',
-            'questions' => 'required|string',
+            'questions' => 'nullable|string',
             'a' => 'nullable|string',
             'b' => 'nullable|string', 
             'c' => 'nullable|string',
@@ -95,7 +103,7 @@ class QuestionController extends Controller implements HasMiddleware
 
             Question::create([
                 'section_id' => $request->section_id,
-                'questions' => $request->questions,
+                'questions' => $request->questions ?? '',
                 'image' => $request->image,
                 'a' => $request->a ?? 'Option A',
                 'b' => $request->b ?? 'Option B',
@@ -136,11 +144,11 @@ class QuestionController extends Controller implements HasMiddleware
                 'max:5000'
             ]),
             'section_id' => 'required|exists:sections,id',
-            'questions' => 'required|string',
-            'a' => 'required|string',
-            'b' => 'required|string',
-            'c' => 'required|string',
-            'd' => 'required|string',
+            'questions' => 'nullable|string',
+            'a' => 'nullable|string',
+            'b' => 'nullable|string',
+            'c' => 'nullable|string',
+            'd' => 'nullable|string',
             'answer' => 'required|in:A,B,C,D',
         ]);
 
@@ -162,11 +170,11 @@ class QuestionController extends Controller implements HasMiddleware
                 'image' => $request->image,
                 'audio' => $request->audio,
                 'section_id' => $request->section_id,
-                'questions' => $request->questions,
-                'a' => $request->a,
-                'b' => $request->b,
-                'c' => $request->c,
-                'd' => $request->d,
+                'questions' => $request->questions ?? '',
+                'a' => $request->a ?? 'Option A',
+                'b' => $request->b ?? 'Option B',
+                'c' => $request->c ?? 'Option C',
+                'd' => $request->d ?? 'Option D',
                 'answer' => $request->answer,
             ]);
 
@@ -213,5 +221,7 @@ class QuestionController extends Controller implements HasMiddleware
         } catch (\Exception $e) {
             return ResponseFormatter::handleError($e);
         }
+
     }
+    
 }

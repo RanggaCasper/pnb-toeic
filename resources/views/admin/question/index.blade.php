@@ -71,7 +71,7 @@
             <input type="hidden" name="section_id" value="{{ request('id') }}" id="section_id">
         </div>
         <div class="mb-3">
-            <x-input label="Question" type="text" name="questions" id="question_update" required />
+            <x-input label="Question" type="text" name="questions" id="question_update" />
         </div>
         <div class="mb-3">
             <x-filepond
@@ -82,16 +82,16 @@
                 :isRequired="false" />
         </div>
         <div class="mb-3">
-            <x-input name="a" label="Option A" id="option_a_update" required />
+            <x-input name="a" label="Option A" id="option_a_update" />
         </div>
         <div class="mb-3">
-            <x-input name="b" label="Option B" id="option_b_update" required />
+            <x-input name="b" label="Option B" id="option_b_update" />
         </div>
         <div class="mb-3">
-            <x-input name="c" label="Option C" id="option_c_update" required />
+            <x-input name="c" label="Option C" id="option_c_update" />
         </div>
         <div class="mb-3">
-            <x-input name="d" label="Option D" id="option_d_update" required />
+            <x-input name="d" label="Option D" id="option_d_update" />
         </div>
         <div class="mb-3">
             <x-select
@@ -118,7 +118,16 @@
             processing: true,
             serverSide: false,
             scrollX: true,
+<<<<<<< Updated upstream
             ajax: "{{ route('admin.question.get', ['id' => request('id')]) }}",
+=======
+            ajax: {
+                url: "{{ route('admin.question.get') }}",
+                data: function(d) {
+                    d.section_id = "{{ request('id') }}";
+                }
+            },
+>>>>>>> Stashed changes
             columns: [{
                     data: 'id',
                     name: 'id'
@@ -169,6 +178,7 @@
                             </div>
                         </div>
                     `,
+                    
                     showCancelButton: true,
                     showConfirmButton: false,
                     customClass: {
