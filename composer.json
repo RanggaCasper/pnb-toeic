@@ -6,11 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "barryvdh/laravel-dompdf": "^3.1",
+        "barryvdh/laravel-dompdf": "*",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
         "rahulhaque/laravel-filepond": "11.0",
+        "sopamo/laravel-filepond": "^1.5",
         "yajra/laravel-datatables-oracle": "^11.1"
     },
     "require-dev": {

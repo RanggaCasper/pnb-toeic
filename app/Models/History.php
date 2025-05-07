@@ -28,6 +28,16 @@ class History extends Model
         return $this->belongsTo(Question::class, 'questions_id');
     }
 
+    public function section(): BelongsTo
+    {
+        return $this->belongsTo(Section::class, 'sections_id');
+    }
+
+    public function bank(): BelongsTo
+    {
+        return $this->belongsTo(QuestionBank::class, 'question_banks_id');
+    }
+
     public function toeicScore(): BelongsTo
     {
         return $this->belongsTo(ToeicScore::class, 'users_id', 'users_id');

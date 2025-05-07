@@ -154,6 +154,8 @@ Route::prefix('user')->as('user.')->middleware('auth', 'checkRole:user')->group(
     Route::prefix('history')->as('history.')->group(function () {
         Route::controller(\App\Http\Controllers\User\History\HistoryController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/certificate/{timestamp}', 'certificate')->name('certificate');
+            Route::get('/download/{timestamp}', 'download')->name('download');
         });
     });
 });
